@@ -1,7 +1,9 @@
 package main
 
 import (
+	"errors"
 	"fmt"
+	"net/http"
 	"os"
 
 	"github.com/course-go/chanoodle/internal/api/rest"
@@ -43,7 +45,7 @@ func runApp(log zerolog.Logger) error {
 	router := api.Router()
 
 	err := router.Start("localhost:8080")
-	if err != nil {
+	if !errors.Is(err, http.ErrServerClosed) {
 		return fmt.Errorf("failed running router: %w", err)
 	}
 
