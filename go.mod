@@ -7,6 +7,7 @@ tool github.com/golangci/golangci-lint/v2/cmd/golangci-lint
 require (
 	github.com/labstack/echo/v4 v4.13.4
 	github.com/rs/zerolog v1.34.0
+	github.com/ziflex/lecho/v3 v3.9.0
 )
 
 require (
