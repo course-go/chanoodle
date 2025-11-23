@@ -1,11 +1,16 @@
 package rest
 
 import (
+	"time"
+
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/channels"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/events"
 	"github.com/course-go/chanoodle/internal/api/rest/middleware/auth"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
+
+const requestTimeout = 30 * time.Second
 
 type API struct {
 	channelsAPI channels.API
@@ -23,7 +28,12 @@ func (a *API) Router() *echo.Echo {
 	e := echo.New()
 
 	api := e.Group("/api/v1")
-	api.Use(auth.KeyAuthMiddleware())
+	api.Use(
+		middleware.Recover(),
+		middleware.Secure(),
+		middleware.ContextTimeout(requestTimeout),
+		auth.KeyAuthMiddleware(),
+	)
 
 	a.channelsAPI.MountRoutes(api)
 	a.eventsAPI.MountRoutes(api)
