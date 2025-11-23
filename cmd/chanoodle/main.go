@@ -42,7 +42,7 @@ func runApp(log zerolog.Logger) error {
 	eventAPI := events.NewAPI(log, applicationEventService)
 	api := rest.NewAPI(channelAPI, eventAPI)
 
-	router := api.Router()
+	router := api.Router(log)
 
 	err := router.Start("localhost:8080")
 	if !errors.Is(err, http.ErrServerClosed) {
