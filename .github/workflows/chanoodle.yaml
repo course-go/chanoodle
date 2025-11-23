@@ -1,0 +1,6 @@
+---
+name: Chanoodle CI
+on: pull_request
+jobs:
+  chanoodle-ci:
+    uses: course-go/homework/.github/workflows/chanoodle.yaml@master
