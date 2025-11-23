@@ -2,6 +2,10 @@
 
 Chanoodle is channel and event metadata service.
 
+<img src="assets/gopher-noodles.svg" alt="Gopher noodles" width="300">
+
+Illustration credit: [MariaLetta](https://github.com/MariaLetta/free-gophers-pack)
+
 ## Assignment
 
 Chanoodle already implements a REST API exposing the basic functionality.
