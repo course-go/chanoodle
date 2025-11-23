@@ -14,6 +14,8 @@ linters:
     - nonamedreturns
     - gochecknoglobals
     - depguard
+    # deprecated
+    - wsl
   settings:
     dupl:
       threshold: 120
