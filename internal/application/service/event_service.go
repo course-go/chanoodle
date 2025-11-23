@@ -1,4 +1,4 @@
-package services
+package service
 
 import (
 	"github.com/course-go/chanoodle/internal/application/interfaces/service"

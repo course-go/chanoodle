@@ -1,12 +1,12 @@
 package channels
 
-import services "github.com/course-go/chanoodle/internal/application/interfaces/service"
+import application "github.com/course-go/chanoodle/internal/application/interfaces/service"
 
 type API struct {
-	channelService services.ChannelService
+	channelService application.ChannelService
 }
 
-func NewAPI(channelService services.ChannelService) API {
+func NewAPI(channelService application.ChannelService) API {
 	return API{
 		channelService: channelService,
 	}
