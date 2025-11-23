@@ -5,8 +5,8 @@ import (
 	"os"
 
 	"github.com/course-go/chanoodle/internal/api/rest"
-	"github.com/course-go/chanoodle/internal/api/rest/channels"
-	"github.com/course-go/chanoodle/internal/api/rest/events"
+	"github.com/course-go/chanoodle/internal/api/rest/controllers/channels"
+	"github.com/course-go/chanoodle/internal/api/rest/controllers/events"
 	application "github.com/course-go/chanoodle/internal/application/service"
 	domain "github.com/course-go/chanoodle/internal/domain/service"
 	"github.com/course-go/chanoodle/internal/infrastructure/persistence/memory"

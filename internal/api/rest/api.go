@@ -1,8 +1,9 @@
 package rest
 
 import (
-	"github.com/course-go/chanoodle/internal/api/rest/channels"
-	"github.com/course-go/chanoodle/internal/api/rest/events"
+	"github.com/course-go/chanoodle/internal/api/rest/controllers/channels"
+	"github.com/course-go/chanoodle/internal/api/rest/controllers/events"
+	"github.com/course-go/chanoodle/internal/api/rest/middleware/auth"
 	"github.com/labstack/echo/v4"
 )
 
@@ -20,7 +21,9 @@ func NewAPI(channelsAPI channels.API, eventsAPI events.API) API {
 
 func (a *API) Router() *echo.Echo {
 	e := echo.New()
+
 	api := e.Group("/api/v1")
+	api.Use(auth.KeyAuthMiddleware())
 
 	a.channelsAPI.MountRoutes(api)
 	a.eventsAPI.MountRoutes(api)
