@@ -1,0 +1,44 @@
+---
+version: "2"
+
+run:
+  tests: true
+
+linters:
+  default: all
+  disable:
+    # restrictive
+    - exhaustruct
+    - varnamelen
+    - funlen
+    - nonamedreturns
+    - gochecknoglobals
+    - depguard
+  settings:
+    dupl:
+      threshold: 120
+    revive:
+      rules:
+        - name: package-comments
+          disabled: true
+
+formatters:
+  enable:
+    - gci
+    - gofmt
+    - gofumpt
+    - goimports
+    - golines
+  settings:
+    golines:
+      max-len: 120
+
+output:
+  formats:
+    text:
+      path: stdout
+    tab:
+      path: golangci-lint.out
+      colors: false
+    html:
+      path: golangci-lint.out.html
