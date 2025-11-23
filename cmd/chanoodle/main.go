@@ -11,12 +11,13 @@ import (
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/events"
 	application "github.com/course-go/chanoodle/internal/application/service"
 	domain "github.com/course-go/chanoodle/internal/domain/service"
+	"github.com/course-go/chanoodle/internal/foundation/logger"
 	"github.com/course-go/chanoodle/internal/infrastructure/persistence/memory"
 	"github.com/rs/zerolog"
 )
 
 func main() {
-	log := zerolog.New(os.Stderr)
+	log := logger.New(os.Getenv("ENV"))
 
 	err := runApp(log)
 	if err != nil {
