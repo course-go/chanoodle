@@ -3,14 +3,17 @@ package events
 import (
 	application "github.com/course-go/chanoodle/internal/application/interfaces/service"
 	"github.com/labstack/echo/v4"
+	"github.com/rs/zerolog"
 )
 
 type API struct {
+	log          zerolog.Logger
 	eventService application.EventService
 }
 
-func NewAPI(eventService application.EventService) API {
+func NewAPI(log zerolog.Logger, eventService application.EventService) API {
 	return API{
+		log:          log.With().Str("component", "api-rest/event-api").Logger(),
 		eventService: eventService,
 	}
 }

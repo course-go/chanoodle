@@ -3,14 +3,17 @@ package channels
 import (
 	application "github.com/course-go/chanoodle/internal/application/interfaces/service"
 	"github.com/labstack/echo/v4"
+	"github.com/rs/zerolog"
 )
 
 type API struct {
+	log            zerolog.Logger
 	channelService application.ChannelService
 }
 
-func NewAPI(channelService application.ChannelService) API {
+func NewAPI(log zerolog.Logger, channelService application.ChannelService) API {
 	return API{
+		log:            log.With().Str("component", "api-rest/channel-api").Logger(),
 		channelService: channelService,
 	}
 }

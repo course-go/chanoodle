@@ -10,27 +10,34 @@ import (
 	application "github.com/course-go/chanoodle/internal/application/service"
 	domain "github.com/course-go/chanoodle/internal/domain/service"
 	"github.com/course-go/chanoodle/internal/infrastructure/persistence/memory"
+	"github.com/rs/zerolog"
 )
 
 func main() {
-	err := runApp()
+	log := zerolog.New(os.Stderr)
+
+	err := runApp(log)
 	if err != nil {
+		log.Error().
+			Err(err).
+			Msg("failed running app")
+
 		os.Exit(1)
 	}
 }
 
-func runApp() error {
-	channelRepository := memory.NewChannelRepository()
-	eventRepository := memory.NewEventRepository()
+func runApp(log zerolog.Logger) error {
+	channelRepository := memory.NewChannelRepository(log)
+	eventRepository := memory.NewEventRepository(log)
 
-	domainChannelService := domain.NewChannelService(channelRepository)
-	domainEventService := domain.NewEventService(eventRepository)
+	domainChannelService := domain.NewChannelService(log, channelRepository)
+	domainEventService := domain.NewEventService(log, eventRepository)
 
-	applicationChannelService := application.NewChannelService(domainChannelService)
-	applicationEventService := application.NewEventService(domainEventService)
+	applicationChannelService := application.NewChannelService(log, domainChannelService)
+	applicationEventService := application.NewEventService(log, domainEventService)
 
-	channelAPI := channels.NewAPI(applicationChannelService)
-	eventAPI := events.NewAPI(applicationEventService)
+	channelAPI := channels.NewAPI(log, applicationChannelService)
+	eventAPI := events.NewAPI(log, applicationEventService)
 	api := rest.NewAPI(channelAPI, eventAPI)
 
 	router := api.Router()
