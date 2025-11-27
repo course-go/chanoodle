@@ -1,6 +1,25 @@
 package entity
 
+import (
+	"github.com/course-go/chanoodle/internal/domain/value/genre"
+	"github.com/course-go/chanoodle/internal/domain/value/id"
+)
+
+type AnonymousChannel struct {
+	Name   string
+	Genres []genre.Genre
+}
+
+func (ac *AnonymousChannel) ToChannel(id id.ID) Channel {
+	return Channel{
+		ID:     id,
+		Name:   ac.Name,
+		Genres: ac.Genres,
+	}
+}
+
 type Channel struct {
-	ID   string
-	Name string
+	ID     id.ID
+	Name   string
+	Genres []genre.Genre
 }
