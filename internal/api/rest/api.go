@@ -1,8 +1,10 @@
 package rest
 
 import (
+	"net/http"
 	"time"
 
+	"github.com/course-go/chanoodle/internal/api/rest/common"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/channels"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/events"
 	"github.com/course-go/chanoodle/internal/api/rest/middleware/auth"
@@ -31,6 +33,7 @@ func (a *API) Router(log zerolog.Logger) *echo.Echo {
 
 	logger := lecho.From(log)
 	e.Logger = logger
+	e.HTTPErrorHandler = a.errorHandler
 
 	api := e.Group("/api/v1")
 	api.Use(
@@ -47,4 +50,23 @@ func (a *API) Router(log zerolog.Logger) *echo.Echo {
 	a.eventsAPI.MountRoutes(api)
 
 	return e
+}
+
+func (a *API) errorHandler(err error, c echo.Context) {
+	if err != nil {
+		return
+	}
+
+	// Check if status was already set by handler.
+	status := c.Response().Status
+	if status == 0 {
+		status = http.StatusInternalServerError
+	}
+
+	resp := common.NewErrorResponse(err)
+
+	err = c.JSON(status, resp)
+	if err != nil {
+		_ = c.NoContent(http.StatusInternalServerError)
+	}
 }
