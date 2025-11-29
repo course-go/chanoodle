@@ -2,7 +2,9 @@ package main
 
 import (
 	"errors"
+	"flag"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"os"
 
@@ -10,6 +12,7 @@ import (
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/channels"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/events"
 	application "github.com/course-go/chanoodle/internal/application/service"
+	"github.com/course-go/chanoodle/internal/config"
 	domain "github.com/course-go/chanoodle/internal/domain/service"
 	"github.com/course-go/chanoodle/internal/foundation/logger"
 	"github.com/course-go/chanoodle/internal/infrastructure/persistence/memory"
@@ -17,9 +20,32 @@ import (
 )
 
 func main() {
-	log := logger.New(os.Getenv("ENV"))
+	configPath := flag.String("config", "config/chanoodle.yaml", "path to config file")
 
-	err := runApp(log)
+	flag.Parse()
+
+	config, err := config.Parse(*configPath)
+	if err != nil {
+		slog.Error("failed parsing config",
+			"error", err,
+			"config path", *configPath,
+		)
+
+		os.Exit(1)
+	}
+
+	log, err := logger.New(config.LogLevel, config.Environment)
+	if err != nil {
+		slog.Error("failed creating logger",
+			"error", err,
+			"log level", config.LogLevel,
+			"environment", config.Environment,
+		)
+
+		os.Exit(1)
+	}
+
+	err = runApp(log, config)
 	if err != nil {
 		log.Error().
 			Err(err).
@@ -29,7 +55,7 @@ func main() {
 	}
 }
 
-func runApp(log zerolog.Logger) error {
+func runApp(log zerolog.Logger, cfg config.Chanoodle) error {
 	channelRepository := memory.NewChannelRepository(log)
 	eventRepository := memory.NewEventRepository(log)
 
@@ -45,7 +71,7 @@ func runApp(log zerolog.Logger) error {
 
 	router := api.Router(log)
 
-	err := router.Start("localhost:8080")
+	err := router.Start(cfg.ListenAddress)
 	if !errors.Is(err, http.ErrServerClosed) {
 		return fmt.Errorf("failed running router: %w", err)
 	}
