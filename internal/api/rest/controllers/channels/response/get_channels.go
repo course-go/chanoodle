@@ -6,7 +6,7 @@ import (
 )
 
 type GetChannels struct {
-	Channels []dto.Channel `json:"channels"`
+	Channels []dto.Channel `json:"channels,omitempty"`
 }
 
 func NewGetChannels(qr query.ChannelsResult) GetChannels {

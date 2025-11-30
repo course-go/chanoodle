@@ -6,7 +6,7 @@ import (
 )
 
 type GetChannel struct {
-	Channel dto.Channel
+	Channel dto.Channel `json:"channel,omitzero"`
 }
 
 func NewGetChannel(qr query.ChannelResult) GetChannel {

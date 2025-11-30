@@ -6,7 +6,7 @@ import (
 )
 
 type PostChannels struct {
-	Channel dto.Channel
+	Channel dto.Channel `json:"channel,omitzero"`
 }
 
 func ParsePostChannels(cr command.CreateChannelResult) PostChannels {
