@@ -11,17 +11,17 @@ type AnonymousEvent struct {
 	Channel id.ID
 	From    time.Time
 	To      time.Time
-	Genres  []Genre
+	Genres  []id.ID
 }
 
-func (ae *AnonymousEvent) ToEvent(id id.ID) Event {
+func (ae *AnonymousEvent) ToEvent(id id.ID, genres []Genre) Event {
 	return Event{
 		ID:      id,
 		Channel: ae.Channel,
 		Name:    ae.Name,
 		From:    ae.From,
 		To:      ae.To,
-		Genres:  ae.Genres,
+		Genres:  genres,
 	}
 }
 

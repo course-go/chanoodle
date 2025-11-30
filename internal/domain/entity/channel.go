@@ -8,10 +8,10 @@ import (
 type AnonymousChannel struct {
 	Name     string
 	Priority priority.Priority
-	Genres   []Genre
+	Genres   []id.ID
 }
 
-func (ac *AnonymousChannel) ToChannel(id id.ID) Channel {
+func (ac *AnonymousChannel) ToChannel(id id.ID, genres []Genre) Channel {
 	prio := ac.Priority
 	if prio == 0 {
 		prio = priority.DefaultPriority
@@ -21,7 +21,7 @@ func (ac *AnonymousChannel) ToChannel(id id.ID) Channel {
 		ID:       id,
 		Name:     ac.Name,
 		Priority: prio,
-		Genres:   ac.Genres,
+		Genres:   genres,
 	}
 }
 
