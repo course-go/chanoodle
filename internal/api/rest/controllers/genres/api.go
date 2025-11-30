@@ -25,7 +25,7 @@ func NewAPI(log zerolog.Logger, genreService application.GenreService) API {
 }
 
 func (a *API) MountRoutes(e *echo.Group) {
-	channels := e.Group("/channels")
+	channels := e.Group("/genres")
 
 	channels.GET("", a.getGenresController)
 	channels.POST("", a.postGenresController)
