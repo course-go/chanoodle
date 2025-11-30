@@ -33,16 +33,14 @@ func NewDependencies(t *testing.T, config config.Chanoodle) Dependencies {
 	log, err := logger.New(config.LogLevel, config.Environment)
 	require.NoError(t, err)
 
-	channelRepository := memory.NewChannelRepository(log)
-	eventRepository := memory.NewEventRepository(log)
-	genreRepository := memory.NewGenreRepository(log)
+	mediaRepository := memory.NewMediaRepository(log)
 
 	domainEPGService := domain.NewEPGService(log)
 
-	applicationChannelService := application.NewChannelService(log, channelRepository)
-	applicationEventService := application.NewEventService(log, eventRepository)
-	applicationGenreService := application.NewGenreService(log, genreRepository)
-	applicationEPGService := application.NewEPGService(log, domainEPGService, channelRepository, eventRepository)
+	applicationChannelService := application.NewChannelService(log, mediaRepository)
+	applicationEventService := application.NewEventService(log, mediaRepository)
+	applicationGenreService := application.NewGenreService(log, mediaRepository)
+	applicationEPGService := application.NewEPGService(log, domainEPGService, mediaRepository, mediaRepository)
 
 	channelAPI := channels.NewAPI(log, applicationChannelService)
 	eventAPI := events.NewAPI(log, applicationEventService)
@@ -56,8 +54,8 @@ func NewDependencies(t *testing.T, config config.Chanoodle) Dependencies {
 	return Dependencies{
 		Router: api.Router(log),
 
-		ChannelRepository: channelRepository,
-		EventRepository:   eventRepository,
-		GenreRepository:   genreRepository,
+		ChannelRepository: mediaRepository,
+		EventRepository:   mediaRepository,
+		GenreRepository:   mediaRepository,
 	}
 }

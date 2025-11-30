@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/course-go/chanoodle/internal/domain/entity"
+	"github.com/course-go/chanoodle/internal/domain/value/id"
 	"github.com/course-go/chanoodle/internal/domain/value/priority"
 	"github.com/stretchr/testify/require"
 )
@@ -52,7 +53,7 @@ func SeedChannels(t *testing.T, d Dependencies, genres []entity.Genre) []entity.
 		channel, err := d.ChannelRepository.CreateChannel(entity.AnonymousChannel{
 			Name:     name,
 			Priority: channelPriorities[i],
-			Genres:   []entity.Genre{genres[i%len(genres)]},
+			Genres:   []id.ID{genres[i%len(genres)].ID},
 		})
 		require.NoError(t, err)
 
@@ -89,7 +90,7 @@ func SeedEvents(t *testing.T, d Dependencies, genres []entity.Genre, channels []
 			Channel: channels[i%len(channels)].ID,
 			From:    from,
 			To:      to,
-			Genres:  []entity.Genre{genres[i%len(genres)]},
+			Genres:  []id.ID{genres[i%len(genres)].ID},
 		})
 		require.NoError(t, err)
 

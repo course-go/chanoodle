@@ -61,27 +61,21 @@ func main() {
 }
 
 func runApp(log zerolog.Logger, config config.Chanoodle) error {
-	var (
-		channelRepository repository.ChannelRepository
-		eventRepository   repository.EventRepository
-		genresRepository  repository.GenreRepository
-	)
+	var mediaRepository repository.MediaRepository
 
 	switch config.Storage.Type {
 	case storage.Memory:
-		channelRepository = memory.NewChannelRepository(log)
-		eventRepository = memory.NewEventRepository(log)
-		genresRepository = memory.NewGenreRepository(log)
+		mediaRepository = memory.NewMediaRepository(log)
 	default:
 		return storage.ErrUnknownType
 	}
 
 	domainEPGService := domain.NewEPGService(log)
 
-	applicationChannelService := application.NewChannelService(log, channelRepository)
-	applicationEventService := application.NewEventService(log, eventRepository)
-	applicationGenreService := application.NewGenreService(log, genresRepository)
-	applicationEPGService := application.NewEPGService(log, domainEPGService, channelRepository, eventRepository)
+	applicationChannelService := application.NewChannelService(log, mediaRepository)
+	applicationEventService := application.NewEventService(log, mediaRepository)
+	applicationGenreService := application.NewGenreService(log, mediaRepository)
+	applicationEPGService := application.NewEPGService(log, domainEPGService, mediaRepository, mediaRepository)
 
 	channelAPI := channels.NewAPI(log, applicationChannelService)
 	eventAPI := events.NewAPI(log, applicationEventService)
