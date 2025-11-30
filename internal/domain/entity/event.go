@@ -3,7 +3,6 @@ package entity
 import (
 	"time"
 
-	"github.com/course-go/chanoodle/internal/domain/value/genre"
 	"github.com/course-go/chanoodle/internal/domain/value/id"
 )
 
@@ -12,7 +11,7 @@ type AnonymousEvent struct {
 	Channel id.ID
 	From    time.Time
 	To      time.Time
-	Genres  []genre.Genre
+	Genres  []Genre
 }
 
 func (ae *AnonymousEvent) ToEvent(id id.ID) Event {
@@ -32,5 +31,5 @@ type Event struct {
 	Name    string
 	From    time.Time
 	To      time.Time
-	Genres  []genre.Genre
+	Genres  []Genre
 }
