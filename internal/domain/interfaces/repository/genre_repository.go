@@ -6,6 +6,6 @@ import (
 )
 
 type GenreRepository interface {
-	Genres(pagination pagination.Pagination[entity.Genre]) (genres []entity.Genre, err error)
+	Genres(pagination *pagination.Pagination[entity.Genre]) (genres []entity.Genre, err error)
 	GetOrCreateGenre(anonymous entity.AnonymousGenre) (genre entity.Genre, err error)
 }

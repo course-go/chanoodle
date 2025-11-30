@@ -30,7 +30,7 @@ func NewGenreRepository(log zerolog.Logger) *GenreRepository {
 }
 
 // Genres implements [repository.GenreRepository].
-func (e *GenreRepository) Genres(pagination pagination.Pagination[entity.Genre]) (genres []entity.Genre, err error) {
+func (e *GenreRepository) Genres(pagination *pagination.Pagination[entity.Genre]) (genres []entity.Genre, err error) {
 	e.mu.Lock()
 	defer e.mu.Unlock()
 
@@ -43,7 +43,9 @@ func (e *GenreRepository) Genres(pagination pagination.Pagination[entity.Genre])
 		return cmp.Compare(a.ID, b.ID)
 	})
 
-	genres = pagination.Paginate(genres)
+	if pagination != nil {
+		genres = pagination.Paginate(genres)
+	}
 
 	return genres, nil
 }

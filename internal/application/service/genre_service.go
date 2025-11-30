@@ -26,7 +26,7 @@ func NewGenreService(log zerolog.Logger, genreRepository repository.GenreReposit
 
 // Genres implements [service.GenreService].
 func (cs *GenreService) Genres(q query.Genres) (r query.GenresResult, err error) {
-	genres, err := cs.genreRepository.Genres(q.Pagination)
+	genres, err := cs.genreRepository.Genres(&q.Pagination)
 	if err != nil {
 		return query.GenresResult{}, fmt.Errorf("failed getting genres from repository: %w", err)
 	}
