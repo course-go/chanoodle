@@ -11,6 +11,7 @@ import (
 	"github.com/course-go/chanoodle/internal/api/rest"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/channels"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/events"
+	"github.com/course-go/chanoodle/internal/api/rest/controllers/genres"
 	application "github.com/course-go/chanoodle/internal/application/service"
 	"github.com/course-go/chanoodle/internal/config"
 	domain "github.com/course-go/chanoodle/internal/domain/service"
@@ -55,23 +56,26 @@ func main() {
 	}
 }
 
-func runApp(log zerolog.Logger, cfg config.Chanoodle) error {
+func runApp(log zerolog.Logger, config config.Chanoodle) error {
 	channelRepository := memory.NewChannelRepository(log)
 	eventRepository := memory.NewEventRepository(log)
+	genresRepository := memory.NewGenreRepository(log)
 
 	domainChannelService := domain.NewChannelService(log, channelRepository)
 	domainEventService := domain.NewEventService(log, eventRepository)
 
 	applicationChannelService := application.NewChannelService(log, domainChannelService)
 	applicationEventService := application.NewEventService(log, domainEventService)
+	applicationGenreService := application.NewGenreService(log, genresRepository)
 
 	channelAPI := channels.NewAPI(log, applicationChannelService)
 	eventAPI := events.NewAPI(log, applicationEventService)
-	api := rest.NewAPI(channelAPI, eventAPI)
+	genresAPI := genres.NewAPI(log, applicationGenreService)
+	api := rest.NewAPI(channelAPI, eventAPI, genresAPI)
 
 	router := api.Router(log)
 
-	err := router.Start(cfg.ListenAddress)
+	err := router.Start(config.ListenAddress)
 	if !errors.Is(err, http.ErrServerClosed) {
 		return fmt.Errorf("failed running router: %w", err)
 	}
