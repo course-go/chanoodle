@@ -1,12 +1,12 @@
 package service
 
 import (
+	"fmt"
+
 	"github.com/course-go/chanoodle/internal/application/command"
 	"github.com/course-go/chanoodle/internal/application/interfaces/service"
 	"github.com/course-go/chanoodle/internal/application/query"
-	"github.com/course-go/chanoodle/internal/domain/entity"
 	domain "github.com/course-go/chanoodle/internal/domain/interfaces/service"
-	"github.com/course-go/chanoodle/internal/domain/value/pagination"
 	"github.com/rs/zerolog"
 )
 
@@ -28,42 +28,44 @@ func NewEventService(log zerolog.Logger, eventService domain.EventService) *Even
 func (es *EventService) CreateEvent(c command.CreateEvent) (r command.CreateEventResult, err error) {
 	event, err := es.eventService.CreateEvent(c.Event)
 	if err != nil {
-		return r, err
+		return command.CreateEventResult{}, fmt.Errorf("failed creating event in service: %w", err)
 	}
 
-	r.Event = event
-	return r, nil
+	return command.CreateEventResult{
+		Event: event,
+	}, nil
 }
 
 // Event implements [service.EventService].
 func (es *EventService) Event(q query.Event) (r query.EventResult, err error) {
 	event, err := es.eventService.Event(q.ID)
 	if err != nil {
-		return r, err
+		return query.EventResult{}, fmt.Errorf("failed fetching event from service: %w", err)
 	}
 
-	r.Event = event
-	return r, nil
+	return query.EventResult{
+		Event: event,
+	}, nil
 }
 
 // Events implements [service.EventService].
 func (es *EventService) Events(q query.Events) (r query.EventsResult, err error) {
-	pag := pagination.New[entity.Event](0, 0)
-	events, err := es.eventService.Events(q.Filter, pag)
+	events, err := es.eventService.Events(q.Filter, q.Pagination)
 	if err != nil {
-		return r, err
+		return query.EventsResult{}, fmt.Errorf("failed fetching events from service: %w", err)
 	}
 
-	r.Events = events
-	return r, nil
+	return query.EventsResult{
+		Events: events,
+	}, nil
 }
 
 // UpdateEvent implements [service.EventService].
 func (es *EventService) UpdateEvent(c command.UpdateEvent) (r command.UpdateEventResult, err error) {
 	err = es.eventService.UpdateEvent(c.Event)
 	if err != nil {
-		return r, err
+		return command.UpdateEventResult{}, fmt.Errorf("failed updating event in service: %w", err)
 	}
 
-	return r, nil
+	return command.UpdateEventResult{}, nil
 }

@@ -1,6 +1,8 @@
 package service
 
 import (
+	"fmt"
+
 	"github.com/course-go/chanoodle/internal/domain/entity"
 	"github.com/course-go/chanoodle/internal/domain/interfaces/repository"
 	"github.com/course-go/chanoodle/internal/domain/interfaces/service"
@@ -25,21 +27,44 @@ func NewEventService(log zerolog.Logger, eventRepository repository.EventReposit
 }
 
 // Events implements [service.EventService].
-func (es *EventService) Events(filter events.Filter, pag pagination.Pagination[entity.Event]) ([]entity.Event, error) {
-	return es.eventRepository.Events(filter, pag)
+func (es *EventService) Events(
+	filter events.Filter,
+	pagination pagination.Pagination[entity.Event],
+) ([]entity.Event, error) {
+	channels, err := es.eventRepository.Events(filter, pagination)
+	if err != nil {
+		return nil, fmt.Errorf("failed fetching events from repository: %w", err)
+	}
+
+	return channels, nil
 }
 
 // Event implements [service.EventService].
 func (es *EventService) Event(id id.ID) (entity.Event, error) {
-	return es.eventRepository.Event(id)
+	event, err := es.eventRepository.Event(id)
+	if err != nil {
+		return entity.Event{}, fmt.Errorf("failed fetching event from repository: %w", err)
+	}
+
+	return event, nil
 }
 
 // CreateEvent implements [service.EventService].
 func (es *EventService) CreateEvent(anonymousEvent entity.AnonymousEvent) (entity.Event, error) {
-	return es.eventRepository.CreateEvent(anonymousEvent)
+	event, err := es.eventRepository.CreateEvent(anonymousEvent)
+	if err != nil {
+		return entity.Event{}, fmt.Errorf("failed creating event in repository: %w", err)
+	}
+
+	return event, nil
 }
 
 // UpdateEvent implements [service.EventService].
 func (es *EventService) UpdateEvent(event entity.Event) error {
-	return es.eventRepository.UpdateEvent(event)
+	err := es.eventRepository.UpdateEvent(event)
+	if err != nil {
+		return fmt.Errorf("failed updating event in repository: %w", err)
+	}
+
+	return nil
 }

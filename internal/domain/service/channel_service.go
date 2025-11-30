@@ -1,6 +1,8 @@
 package service
 
 import (
+	"fmt"
+
 	"github.com/course-go/chanoodle/internal/domain/entity"
 	"github.com/course-go/chanoodle/internal/domain/interfaces/repository"
 	"github.com/course-go/chanoodle/internal/domain/interfaces/service"
@@ -27,22 +29,42 @@ func NewChannelService(log zerolog.Logger, channelRepository repository.ChannelR
 // Channels implements [service.ChannelService].
 func (cs *ChannelService) Channels(
 	filter channels.Filter,
-	pag pagination.Pagination[entity.Channel],
+	pagination pagination.Pagination[entity.Channel],
 ) ([]entity.Channel, error) {
-	return cs.channelRepository.Channels(filter, pag)
+	channels, err := cs.channelRepository.Channels(filter, pagination)
+	if err != nil {
+		return nil, fmt.Errorf("failed fetching channels from repository: %w", err)
+	}
+
+	return channels, nil
 }
 
 // Channel implements [service.ChannelService].
 func (cs *ChannelService) Channel(id id.ID) (entity.Channel, error) {
-	return cs.channelRepository.Channel(id)
+	channel, err := cs.channelRepository.Channel(id)
+	if err != nil {
+		return entity.Channel{}, fmt.Errorf("failed fetching channel from repository: %w", err)
+	}
+
+	return channel, nil
 }
 
 // CreateChannel implements [service.ChannelService].
 func (cs *ChannelService) CreateChannel(anonymousChannel entity.AnonymousChannel) (entity.Channel, error) {
-	return cs.channelRepository.CreateChannel([]entity.AnonymousChannel{anonymousChannel})
+	channel, err := cs.channelRepository.CreateChannel([]entity.AnonymousChannel{anonymousChannel})
+	if err != nil {
+		return entity.Channel{}, fmt.Errorf("failed creating channel in repository: %w", err)
+	}
+
+	return channel, nil
 }
 
 // UpdateChannel implements [service.ChannelService].
 func (cs *ChannelService) UpdateChannel(channel entity.Channel) error {
-	return cs.channelRepository.UpdateChannel(channel)
+	err := cs.channelRepository.UpdateChannel(channel)
+	if err != nil {
+		return fmt.Errorf("failed updating channel in repository: %w", err)
+	}
+
+	return nil
 }

@@ -1,12 +1,12 @@
 package service
 
 import (
+	"fmt"
+
 	"github.com/course-go/chanoodle/internal/application/command"
 	"github.com/course-go/chanoodle/internal/application/interfaces/service"
 	"github.com/course-go/chanoodle/internal/application/query"
-	"github.com/course-go/chanoodle/internal/domain/entity"
 	domain "github.com/course-go/chanoodle/internal/domain/interfaces/service"
-	"github.com/course-go/chanoodle/internal/domain/value/pagination"
 	"github.com/rs/zerolog"
 )
 
@@ -28,42 +28,44 @@ func NewChannelService(log zerolog.Logger, channelService domain.ChannelService)
 func (cs *ChannelService) Channel(q query.Channel) (r query.ChannelResult, err error) {
 	channel, err := cs.channelService.Channel(q.ID)
 	if err != nil {
-		return r, err
+		return query.ChannelResult{}, fmt.Errorf("failed fetching channel from service: %w", err)
 	}
 
-	r.Channel = channel
-	return r, nil
+	return query.ChannelResult{
+		Channel: channel,
+	}, nil
 }
 
 // Channels implements [service.ChannelService].
 func (cs *ChannelService) Channels(q query.Channels) (r query.ChannelsResult, err error) {
-	pag := pagination.New[entity.Channel](0, 0)
-	channels, err := cs.channelService.Channels(q.Filter, pag)
+	channels, err := cs.channelService.Channels(q.Filter, q.Pagination)
 	if err != nil {
-		return r, err
+		return query.ChannelsResult{}, fmt.Errorf("failed fetching channels from service: %w", err)
 	}
 
-	r.Channels = channels
-	return r, nil
+	return query.ChannelsResult{
+		Channels: channels,
+	}, nil
 }
 
 // CreateChannel implements [service.ChannelService].
 func (cs *ChannelService) CreateChannel(c command.CreateChannel) (r command.CreateChannelResult, err error) {
 	channel, err := cs.channelService.CreateChannel(c.Channel)
 	if err != nil {
-		return r, err
+		return command.CreateChannelResult{}, fmt.Errorf("failed creating channel in service: %w", err)
 	}
 
-	r.Channel = channel
-	return r, nil
+	return command.CreateChannelResult{
+		Channel: channel,
+	}, nil
 }
 
 // UpdateChannel implements [service.ChannelService].
 func (cs *ChannelService) UpdateChannel(c command.UpdateChannel) (r command.UpdateChannelResult, err error) {
 	err = cs.channelService.UpdateChannel(c.Channel)
 	if err != nil {
-		return r, err
+		return command.UpdateChannelResult{}, fmt.Errorf("failed updating channel in service: %w", err)
 	}
 
-	return r, nil
+	return command.UpdateChannelResult{}, nil
 }
