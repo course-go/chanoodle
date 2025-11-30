@@ -5,13 +5,12 @@ import (
 	"time"
 
 	"github.com/course-go/chanoodle/internal/domain/entity"
-	"github.com/course-go/chanoodle/internal/domain/value/genre"
 	"github.com/course-go/chanoodle/internal/domain/value/id"
 )
 
 type Filter struct {
 	Channels []id.ID
-	Genres   []genre.Genre
+	Genres   []id.ID
 	From     *time.Time
 	To       *time.Time
 }
@@ -24,8 +23,12 @@ func (f *Filter) Filter(event entity.Event) bool {
 	}
 
 	// All genres match.
-	for _, genre := range f.Genres {
-		if !slices.Contains(event.Genres, genre) {
+	for _, genreID := range f.Genres {
+		if !slices.ContainsFunc(event.Genres,
+			func(genre entity.Genre) bool {
+				return genre.ID == genreID
+			},
+		) {
 			return false
 		}
 	}
