@@ -10,7 +10,6 @@ import (
 	"github.com/course-go/chanoodle/internal/api/rest/common"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/genres/dto"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/genres/response"
-	"github.com/course-go/chanoodle/internal/domain/entity"
 	"github.com/course-go/chanoodle/test/setup"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -25,7 +24,7 @@ func TestGetGenresController(t *testing.T) {
 		t.Parallel()
 
 		d := setup.NewDependencies(t, config)
-		seedGenres(t, d)
+		setup.Seed(t, d)
 
 		req := httptest.NewRequest(http.MethodGet, "/api/v1/genres", nil)
 		req.Header.Set("X-Api-Key", config.Auth.APIKey)
@@ -62,7 +61,7 @@ func TestGetGenresController(t *testing.T) {
 		t.Parallel()
 
 		d := setup.NewDependencies(t, config)
-		seedGenres(t, d)
+		setup.Seed(t, d)
 
 		req := httptest.NewRequest(http.MethodGet, "/api/v1/genres?limit=2&offset=2", nil)
 		req.Header.Set("X-Api-Key", config.Auth.APIKey)
@@ -102,7 +101,7 @@ func TestPostGenresController(t *testing.T) {
 		t.Parallel()
 
 		d := setup.NewDependencies(t, config)
-		seedGenres(t, d)
+		setup.Seed(t, d)
 
 		reqBody := `{
 			"data": {
@@ -142,7 +141,7 @@ func TestPostGenresController(t *testing.T) {
 		t.Parallel()
 
 		d := setup.NewDependencies(t, config)
-		seedGenres(t, d)
+		setup.Seed(t, d)
 
 		reqBody := `{
 			"data": {
@@ -182,7 +181,7 @@ func TestPostGenresController(t *testing.T) {
 		t.Parallel()
 
 		d := setup.NewDependencies(t, config)
-		seedGenres(t, d)
+		setup.Seed(t, d)
 
 		reqBody := `{
 			"data": {
@@ -208,16 +207,4 @@ func TestPostGenresController(t *testing.T) {
 		assert.NotEmpty(t, resp.Error)
 		assert.Contains(t, resp.Error, "failed validating")
 	})
-}
-
-func seedGenres(t *testing.T, d setup.Dependencies) {
-	t.Helper()
-
-	genreNames := []string{"action", "romance", "comedy", "drama", "thriller"}
-	for _, name := range genreNames {
-		_, err := d.GenreRepository.GetOrCreateGenre(entity.AnonymousGenre{
-			Name: name,
-		})
-		require.NoError(t, err)
-	}
 }
