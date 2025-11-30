@@ -1,3 +1,6 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/course-go/chanoodle)](https://goreportcard.com/report/github.com/course-go/chanoodle)
+![Go version](https://img.shields.io/github/go-mod/go-version/course-go/chanoodle)
+
 # Chanoodle: Containerization & Persistence
 
 Chanoodle is channel and event metadata service.
