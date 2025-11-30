@@ -9,7 +9,7 @@ import (
 )
 
 type GetEvent struct {
-	ID id.ID `param:"id"`
+	ID id.ID `param:"id" validate:"required"`
 }
 
 func ParseGetEvent(c echo.Context) (q query.Event, err error) {
@@ -18,6 +18,11 @@ func ParseGetEvent(c echo.Context) (q query.Event, err error) {
 	err = c.Bind(&model)
 	if err != nil {
 		return query.Event{}, fmt.Errorf("failed binding request to model: %w", err)
+	}
+
+	err = c.Validate(model)
+	if err != nil {
+		return query.Event{}, fmt.Errorf("failed validating request: %w", err)
 	}
 
 	return query.Event{

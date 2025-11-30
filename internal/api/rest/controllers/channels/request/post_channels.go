@@ -11,8 +11,8 @@ import (
 
 type PostChannels struct {
 	Data struct {
-		Channel dto.AnonymousChannel `json:"channel"`
-	} `json:"data"`
+		Channel dto.AnonymousChannel `json:"channel" validate:"required"`
+	} `json:"data" validate:"required"`
 }
 
 func ParsePostChannels(c echo.Context) (cmd command.CreateChannel, err error) {
@@ -21,6 +21,11 @@ func ParsePostChannels(c echo.Context) (cmd command.CreateChannel, err error) {
 	err = c.Bind(&model)
 	if err != nil {
 		return command.CreateChannel{}, fmt.Errorf("failed binding request to model: %w", err)
+	}
+
+	err = c.Validate(model)
+	if err != nil {
+		return command.CreateChannel{}, fmt.Errorf("failed validating request: %w", err)
 	}
 
 	return command.CreateChannel{

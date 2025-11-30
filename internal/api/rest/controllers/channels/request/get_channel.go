@@ -9,7 +9,7 @@ import (
 )
 
 type GetChannel struct {
-	ID id.ID `param:"id"`
+	ID id.ID `param:"id" validate:"required"`
 }
 
 func ParseGetChannel(c echo.Context) (q query.Channel, err error) {
@@ -18,6 +18,11 @@ func ParseGetChannel(c echo.Context) (q query.Channel, err error) {
 	err = c.Bind(&model)
 	if err != nil {
 		return query.Channel{}, fmt.Errorf("failed binding request to model: %w", err)
+	}
+
+	err = c.Validate(model)
+	if err != nil {
+		return query.Channel{}, fmt.Errorf("failed validating request: %w", err)
 	}
 
 	return query.Channel{

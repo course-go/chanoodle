@@ -11,8 +11,8 @@ import (
 
 type PostGenres struct {
 	Data struct {
-		Genre dto.AnonymousGenre `json:"genre"`
-	} `json:"data"`
+		Genre dto.AnonymousGenre `json:"genre" validate:"required"`
+	} `json:"data" validate:"required"`
 }
 
 func ParsePostGenres(c echo.Context) (cmd command.CreateGenre, err error) {
@@ -21,6 +21,11 @@ func ParsePostGenres(c echo.Context) (cmd command.CreateGenre, err error) {
 	err = c.Bind(&model)
 	if err != nil {
 		return command.CreateGenre{}, fmt.Errorf("failed binding request to model: %w", err)
+	}
+
+	err = c.Validate(model)
+	if err != nil {
+		return command.CreateGenre{}, fmt.Errorf("failed validating request: %w", err)
 	}
 
 	return command.CreateGenre{

@@ -12,8 +12,8 @@ import (
 type PutChannel struct {
 	ID   id.ID `param:"id"`
 	Data struct {
-		Channel entity.AnonymousChannel `json:"channel"`
-	} `json:"data"`
+		Channel entity.AnonymousChannel `json:"channel" validate:"required"`
+	} `           json:"data" validate:"required"`
 }
 
 func ParsePutChannel(c echo.Context) (cmd command.UpdateChannel, err error) {
@@ -22,6 +22,11 @@ func ParsePutChannel(c echo.Context) (cmd command.UpdateChannel, err error) {
 	err = c.Bind(&model)
 	if err != nil {
 		return command.UpdateChannel{}, fmt.Errorf("failed binding request to model: %w", err)
+	}
+
+	err = c.Validate(model)
+	if err != nil {
+		return command.UpdateChannel{}, fmt.Errorf("failed validating request: %w", err)
 	}
 
 	return command.UpdateChannel{

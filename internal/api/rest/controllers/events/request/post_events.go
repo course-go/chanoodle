@@ -12,8 +12,8 @@ import (
 
 type PostEvents struct {
 	Data struct {
-		Event dto.AnonymousEvent `json:"event"`
-	} `json:"data"`
+		Event dto.AnonymousEvent `json:"event" validate:"required"`
+	} `json:"data" validate:"required"`
 }
 
 func ParsePostEvents(c echo.Context) (cmd command.CreateEvent, err error) {
@@ -22,6 +22,11 @@ func ParsePostEvents(c echo.Context) (cmd command.CreateEvent, err error) {
 	err = c.Bind(&model)
 	if err != nil {
 		return command.CreateEvent{}, fmt.Errorf("failed binding request to model: %w", err)
+	}
+
+	err = c.Validate(model)
+	if err != nil {
+		return command.CreateEvent{}, fmt.Errorf("failed validating request: %w", err)
 	}
 
 	return command.CreateEvent{

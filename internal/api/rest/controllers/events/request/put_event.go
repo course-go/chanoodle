@@ -10,10 +10,10 @@ import (
 )
 
 type PutEvent struct {
-	ID   id.ID `param:"id"`
+	ID   id.ID `param:"id" validate:"required"`
 	Data struct {
-		Event entity.AnonymousEvent `json:"event"`
-	} `json:"data"`
+		Event entity.AnonymousEvent `json:"event" validate:"required"`
+	} `           validate:"required" json:"data"`
 }
 
 func ParsePutEvent(c echo.Context) (cmd command.UpdateEvent, err error) {
@@ -22,6 +22,11 @@ func ParsePutEvent(c echo.Context) (cmd command.UpdateEvent, err error) {
 	err = c.Bind(&model)
 	if err != nil {
 		return command.UpdateEvent{}, fmt.Errorf("failed binding request to model: %w", err)
+	}
+
+	err = c.Validate(model)
+	if err != nil {
+		return command.UpdateEvent{}, fmt.Errorf("failed validating request: %w", err)
 	}
 
 	return command.UpdateEvent{

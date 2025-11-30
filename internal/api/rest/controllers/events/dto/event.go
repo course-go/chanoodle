@@ -8,19 +8,19 @@ import (
 )
 
 type AnonymousEvent struct {
-	Name    string      `json:"name,omitzero"`
-	Channel int         `json:"channel,omitzero"`
-	From    time.Time   `json:"from,omitzero"`
-	To      time.Time   `json:"to,omitzero"`
+	Name    string      `json:"name,omitzero"    validate:"required"`
+	Channel int         `json:"channel,omitzero" validate:"required"`
+	From    time.Time   `json:"from,omitzero"    validate:"required"`
+	To      time.Time   `json:"to,omitzero"      validate:"required"`
 	Genres  []dto.Genre `json:"genres,omitempty"`
 }
 
 type Event struct {
-	ID      int         `json:"id,omitzero"`
-	Channel int         `json:"channel,omitzero"`
-	Name    string      `json:"name,omitzero"`
-	From    time.Time   `json:"from,omitzero"`
-	To      time.Time   `json:"to,omitzero"`
+	ID      int         `json:"id,omitzero"      validate:"required"`
+	Channel int         `json:"channel,omitzero" validate:"required"`
+	Name    string      `json:"name,omitzero"    validate:"required"`
+	From    time.Time   `json:"from,omitzero"    validate:"required"`
+	To      time.Time   `json:"to,omitzero"      validate:"required"`
 	Genres  []dto.Genre `json:"genres,omitempty"`
 }
 
