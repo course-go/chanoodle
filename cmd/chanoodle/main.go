@@ -14,7 +14,6 @@ import (
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/genres"
 	application "github.com/course-go/chanoodle/internal/application/service"
 	"github.com/course-go/chanoodle/internal/config"
-	domain "github.com/course-go/chanoodle/internal/domain/service"
 	"github.com/course-go/chanoodle/internal/foundation/logger"
 	"github.com/course-go/chanoodle/internal/infrastructure/persistence/memory"
 	"github.com/rs/zerolog"
@@ -61,11 +60,8 @@ func runApp(log zerolog.Logger, config config.Chanoodle) error {
 	eventRepository := memory.NewEventRepository(log)
 	genresRepository := memory.NewGenreRepository(log)
 
-	domainChannelService := domain.NewChannelService(log, channelRepository)
-	domainEventService := domain.NewEventService(log, eventRepository)
-
-	applicationChannelService := application.NewChannelService(log, domainChannelService)
-	applicationEventService := application.NewEventService(log, domainEventService)
+	applicationChannelService := application.NewChannelService(log, channelRepository)
+	applicationEventService := application.NewEventService(log, eventRepository)
 	applicationGenreService := application.NewGenreService(log, genresRepository)
 
 	channelAPI := channels.NewAPI(log, applicationChannelService)

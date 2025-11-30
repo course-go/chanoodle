@@ -40,7 +40,7 @@ func (cs *GenreService) Genres(q query.Genres) (r query.GenresResult, err error)
 func (cs *GenreService) CreateGenre(c command.CreateGenre) (r command.CreateGenreResult, err error) {
 	genre, err := cs.genreRepository.GetOrCreateGenre(c.Genre)
 	if err != nil {
-		return command.CreateGenreResult{}, fmt.Errorf("failed getting or creating genre from repository: %w", err)
+		return command.CreateGenreResult{}, fmt.Errorf("failed getting or creating genre in repository: %w", err)
 	}
 
 	return command.CreateGenreResult{
