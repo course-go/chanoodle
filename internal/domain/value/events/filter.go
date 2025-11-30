@@ -33,11 +33,11 @@ func (f *Filter) Filter(event entity.Event) bool {
 		}
 	}
 
-	if f.From != nil && f.From.Before(event.From) {
+	if f.From != nil && f.From.After(event.From) {
 		return false
 	}
 
-	if f.To != nil && f.To.After(event.From) {
+	if f.To != nil && f.To.Before(event.To) {
 		return false
 	}
 
