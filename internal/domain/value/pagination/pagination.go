@@ -4,6 +4,8 @@ import "errors"
 
 var ErrInvalidPagination = errors.New("invalid pagination parameters")
 
+const defaultLimit = 250
+
 type Pagination[T any] struct {
 	limit  int
 	offset int
@@ -12,6 +14,10 @@ type Pagination[T any] struct {
 func New[T any](limit, offset int) (p Pagination[T], err error) {
 	if limit < 0 || offset < 0 {
 		return Pagination[T]{}, ErrInvalidPagination
+	}
+
+	if limit == 0 {
+		limit = defaultLimit
 	}
 
 	return Pagination[T]{
