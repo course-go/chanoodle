@@ -79,10 +79,8 @@ func (a *API) getEventController(c echo.Context) error {
 
 func (a *API) postEventsController(c echo.Context) error {
 	cmd, err := request.ParsePostEvents(c)
-	fmt.Println(err)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
-		fmt.Println("here")
 
 		return fmt.Errorf("failed parsing request: %w", err)
 	}
