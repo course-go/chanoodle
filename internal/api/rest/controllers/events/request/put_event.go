@@ -3,6 +3,7 @@ package request
 import (
 	"fmt"
 
+	"github.com/course-go/chanoodle/internal/api/rest/controllers/events/dto"
 	"github.com/course-go/chanoodle/internal/application/command"
 	"github.com/course-go/chanoodle/internal/domain/entity"
 	"github.com/course-go/chanoodle/internal/domain/value/id"
@@ -12,7 +13,7 @@ import (
 type PutEvent struct {
 	ID   id.ID `param:"id" validate:"required"`
 	Data struct {
-		Event entity.AnonymousEvent `json:"event" validate:"required"`
+		Event dto.AnonymousEvent `json:"event" validate:"required"`
 	} `           validate:"required" json:"data"`
 }
 
@@ -30,11 +31,13 @@ func ParsePutEvent(c echo.Context) (cmd command.UpdateEvent, err error) {
 	}
 
 	return command.UpdateEvent{
-		Event: entity.Event{
-			ID:   model.ID,
-			Name: model.Data.Event.Name,
-			From: model.Data.Event.From,
-			To:   model.Data.Event.To,
+		ID: model.ID,
+		Event: entity.AnonymousEvent{
+			Name:    model.Data.Event.Name,
+			Channel: id.ID(model.Data.Event.Channel),
+			From:    model.Data.Event.From,
+			To:      model.Data.Event.To,
+			Genres:  model.Data.Event.Genres,
 		},
 	}, nil
 }

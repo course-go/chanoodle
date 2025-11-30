@@ -14,5 +14,5 @@ type EventRepository interface {
 	) (events []entity.Event, err error)
 	Event(id id.ID) (event entity.Event, err error)
 	CreateEvent(anonymousEvent entity.AnonymousEvent) (event entity.Event, err error)
-	UpdateEvent(event entity.Event) (err error)
+	UpdateEvent(id id.ID, anonymousEvent entity.AnonymousEvent) (err error)
 }

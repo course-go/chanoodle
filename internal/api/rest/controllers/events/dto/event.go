@@ -5,14 +5,15 @@ import (
 
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/genres/dto"
 	"github.com/course-go/chanoodle/internal/domain/entity"
+	"github.com/course-go/chanoodle/internal/domain/value/id"
 )
 
 type AnonymousEvent struct {
-	Name    string      `json:"name,omitzero"    validate:"required"`
-	Channel int         `json:"channel,omitzero" validate:"required"`
-	From    time.Time   `json:"from,omitzero"    validate:"required"`
-	To      time.Time   `json:"to,omitzero"      validate:"required"`
-	Genres  []dto.Genre `json:"genres,omitempty"`
+	Name    string    `json:"name,omitzero"    validate:"required"`
+	Channel int       `json:"channel,omitzero" validate:"required"`
+	From    time.Time `json:"from,omitzero"    validate:"required"`
+	To      time.Time `json:"to,omitzero"      validate:"required"`
+	Genres  []id.ID   `json:"genres,omitempty"`
 }
 
 type Event struct {

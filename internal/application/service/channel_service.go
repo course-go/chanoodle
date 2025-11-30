@@ -62,7 +62,7 @@ func (cs *ChannelService) CreateChannel(c command.CreateChannel) (r command.Crea
 
 // UpdateChannel implements [service.ChannelService].
 func (cs *ChannelService) UpdateChannel(c command.UpdateChannel) (r command.UpdateChannelResult, err error) {
-	err = cs.channelRepository.UpdateChannel(c.Channel)
+	err = cs.channelRepository.UpdateChannel(c.ID, c.Channel)
 	if err != nil {
 		return command.UpdateChannelResult{}, fmt.Errorf("failed updating channel in repository: %w", err)
 	}

@@ -62,7 +62,7 @@ func (es *EventService) CreateEvent(c command.CreateEvent) (r command.CreateEven
 
 // UpdateEvent implements [service.EventService].
 func (es *EventService) UpdateEvent(c command.UpdateEvent) (r command.UpdateEventResult, err error) {
-	err = es.eventRepository.UpdateEvent(c.Event)
+	err = es.eventRepository.UpdateEvent(c.ID, c.Event)
 	if err != nil {
 		return command.UpdateEventResult{}, fmt.Errorf("failed updating event in repository: %w", err)
 	}

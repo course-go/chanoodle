@@ -32,10 +32,11 @@ func ParsePutChannel(c echo.Context) (cmd command.UpdateChannel, err error) {
 	}
 
 	return command.UpdateChannel{
-		Channel: entity.Channel{
-			ID:       model.ID,
+		ID: model.ID,
+		Channel: entity.AnonymousChannel{
 			Name:     model.Data.Channel.Name,
 			Priority: priority.Priority(model.Data.Channel.Priority),
+			Genres:   model.Data.Channel.Genres,
 		},
 	}, nil
 }

@@ -14,5 +14,5 @@ type ChannelRepository interface {
 	) (channels []entity.Channel, err error)
 	Channel(id id.ID) (channel entity.Channel, err error)
 	CreateChannel(anonymousChannel entity.AnonymousChannel) (channel entity.Channel, err error)
-	UpdateChannel(channel entity.Channel) (err error)
+	UpdateChannel(id id.ID, anonymousChannel entity.AnonymousChannel) (err error)
 }
