@@ -23,6 +23,12 @@ linters:
       rules:
         - name: package-comments
           disabled: true
+    tagliatelle:
+      case:
+        overrides:
+          - pkg: internal/config
+            rules:
+              yaml: snake
 
 formatters:
   enable:
