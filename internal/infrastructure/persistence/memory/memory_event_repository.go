@@ -1,6 +1,8 @@
 package memory
 
 import (
+	"cmp"
+	"slices"
 	"sync"
 
 	"github.com/course-go/chanoodle/internal/domain/entity"
@@ -36,11 +38,16 @@ func (e *EventRepository) Events(
 	e.mu.Lock()
 	defer e.mu.Unlock()
 
+	events = make([]entity.Event, 0, len(e.events))
 	for _, event := range e.events {
 		if filter.Filter(event) {
 			events = append(events, event)
 		}
 	}
+
+	slices.SortFunc(events, func(a, b entity.Event) int {
+		return cmp.Compare(a.ID, b.ID)
+	})
 
 	if pagination != nil {
 		events = pagination.Paginate(events)

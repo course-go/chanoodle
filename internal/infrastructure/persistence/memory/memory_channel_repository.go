@@ -1,6 +1,8 @@
 package memory
 
 import (
+	"cmp"
+	"slices"
 	"sync"
 
 	"github.com/course-go/chanoodle/internal/domain/entity"
@@ -36,11 +38,16 @@ func (c *ChannelRepository) Channels(
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
+	channels = make([]entity.Channel, 0, len(c.channels))
 	for _, channel := range c.channels {
 		if filter.Filter(channel) {
 			channels = append(channels, channel)
 		}
 	}
+
+	slices.SortFunc(channels, func(a, b entity.Channel) int {
+		return cmp.Compare(a.ID, b.ID)
+	})
 
 	if pagination != nil {
 		channels = pagination.Paginate(channels)

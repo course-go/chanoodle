@@ -1,6 +1,8 @@
 package memory
 
 import (
+	"cmp"
+	"slices"
 	"sync"
 
 	"github.com/course-go/chanoodle/internal/domain/entity"
@@ -36,6 +38,10 @@ func (e *GenreRepository) Genres(pagination pagination.Pagination[entity.Genre])
 	for _, genre := range e.genres {
 		genres = append(genres, genre)
 	}
+
+	slices.SortFunc(genres, func(a, b entity.Genre) int {
+		return cmp.Compare(a.ID, b.ID)
+	})
 
 	genres = pagination.Paginate(genres)
 
