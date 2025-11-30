@@ -1,15 +1,23 @@
 package pagination
 
+import "errors"
+
+var ErrInvalidPagination = errors.New("invalid pagination parameters")
+
 type Pagination[T any] struct {
-	offset int
 	limit  int
+	offset int
 }
 
-func New[T any](offset, limit int) Pagination[T] {
-	return Pagination[T]{
-		offset: offset,
-		limit:  limit,
+func New[T any](limit, offset int) (p Pagination[T], err error) {
+	if limit < 0 || offset < 0 {
+		return Pagination[T]{}, ErrInvalidPagination
 	}
+
+	return Pagination[T]{
+		limit:  limit,
+		offset: offset,
+	}, nil
 }
 
 func (p *Pagination[T]) Paginate(slice []T) []T {
