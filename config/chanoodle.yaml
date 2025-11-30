@@ -1,2 +1,7 @@
 ---
+environment: development
 listen_address: localhost:8080
+log_level: trace
+
+auth:
+  api_key: "abc"
