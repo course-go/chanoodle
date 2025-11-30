@@ -71,7 +71,7 @@ func (a *API) Router(log zerolog.Logger) *echo.Echo {
 }
 
 func (a *API) errorHandler(err error, c echo.Context) {
-	if err != nil {
+	if err == nil {
 		return
 	}
 
