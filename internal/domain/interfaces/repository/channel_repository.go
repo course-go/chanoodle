@@ -10,7 +10,7 @@ import (
 type ChannelRepository interface {
 	Channels(
 		filter channels.Filter,
-		pagination pagination.Pagination[entity.Channel],
+		pagination *pagination.Pagination[entity.Channel],
 	) (channels []entity.Channel, err error)
 	Channel(id id.ID) (channel entity.Channel, err error)
 	CreateChannel(anonymousChannel entity.AnonymousChannel) (channel entity.Channel, err error)

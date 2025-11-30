@@ -31,7 +31,7 @@ func NewChannelRepository(log zerolog.Logger) *ChannelRepository {
 // Channels implements [repository.ChannelRepository].
 func (c *ChannelRepository) Channels(
 	filter channels.Filter,
-	pag pagination.Pagination[entity.Channel],
+	pagination *pagination.Pagination[entity.Channel],
 ) (channels []entity.Channel, err error) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
@@ -42,7 +42,9 @@ func (c *ChannelRepository) Channels(
 		}
 	}
 
-	channels = pag.Paginate(channels)
+	if pagination != nil {
+		channels = pagination.Paginate(channels)
+	}
 
 	return channels, nil
 }

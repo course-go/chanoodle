@@ -10,7 +10,7 @@ import (
 type EventRepository interface {
 	Events(
 		filter events.Filter,
-		pagination pagination.Pagination[entity.Event],
+		pagination *pagination.Pagination[entity.Event],
 	) (events []entity.Event, err error)
 	Event(id id.ID) (event entity.Event, err error)
 	CreateEvent(anonymousEvent entity.AnonymousEvent) (event entity.Event, err error)

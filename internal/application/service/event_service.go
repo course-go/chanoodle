@@ -38,7 +38,7 @@ func (es *EventService) Event(q query.Event) (r query.EventResult, err error) {
 
 // Events implements [service.EventService].
 func (es *EventService) Events(q query.Events) (r query.EventsResult, err error) {
-	events, err := es.eventRepository.Events(q.Filter, q.Pagination)
+	events, err := es.eventRepository.Events(q.Filter, &q.Pagination)
 	if err != nil {
 		return query.EventsResult{}, fmt.Errorf("failed getting events from repository: %w", err)
 	}

@@ -38,7 +38,7 @@ func (cs *ChannelService) Channel(q query.Channel) (r query.ChannelResult, err e
 
 // Channels implements [service.ChannelService].
 func (cs *ChannelService) Channels(q query.Channels) (r query.ChannelsResult, err error) {
-	channels, err := cs.channelRepository.Channels(q.Filter, q.Pagination)
+	channels, err := cs.channelRepository.Channels(q.Filter, &q.Pagination)
 	if err != nil {
 		return query.ChannelsResult{}, fmt.Errorf("failed getting channels from repository: %w", err)
 	}

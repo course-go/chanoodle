@@ -31,7 +31,7 @@ func NewEventRepository(log zerolog.Logger) *EventRepository {
 // Events implements [repository.EventRepository].
 func (e *EventRepository) Events(
 	filter events.Filter,
-	pagination pagination.Pagination[entity.Event],
+	pagination *pagination.Pagination[entity.Event],
 ) (events []entity.Event, err error) {
 	e.mu.Lock()
 	defer e.mu.Unlock()
@@ -42,7 +42,9 @@ func (e *EventRepository) Events(
 		}
 	}
 
-	events = pagination.Paginate(events)
+	if pagination != nil {
+		events = pagination.Paginate(events)
+	}
 
 	return events, nil
 }
