@@ -27,17 +27,12 @@ func New[T any](limit, offset int) (p Pagination[T], err error) {
 }
 
 func (p *Pagination[T]) Paginate(slice []T) []T {
-	if p.offset >= len(slice) || p.limit == 0 {
+	if p.limit == 0 || p.offset >= len(slice) {
 		return make([]T, 0)
 	}
 
-	if p.offset > 0 && p.offset < len(slice) {
-		return slice[p.offset:]
-	}
+	from := p.offset
+	to := min(from+p.limit, len(slice))
 
-	if p.limit > 0 && p.limit < len(slice) {
-		return slice[:p.limit]
-	}
-
-	return slice
+	return slice[from:to]
 }
