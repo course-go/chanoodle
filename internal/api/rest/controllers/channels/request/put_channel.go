@@ -7,6 +7,7 @@ import (
 	"github.com/course-go/chanoodle/internal/application/command"
 	"github.com/course-go/chanoodle/internal/domain/entity"
 	"github.com/course-go/chanoodle/internal/domain/value/id"
+	"github.com/course-go/chanoodle/internal/domain/value/priority"
 	"github.com/labstack/echo/v4"
 )
 
@@ -32,8 +33,9 @@ func ParsePutChannel(c echo.Context) (cmd command.UpdateChannel, err error) {
 
 	return command.UpdateChannel{
 		Channel: entity.Channel{
-			ID:   model.ID,
-			Name: model.Data.Channel.Name,
+			ID:       model.ID,
+			Name:     model.Data.Channel.Name,
+			Priority: priority.Priority(model.Data.Channel.Priority),
 		},
 	}, nil
 }

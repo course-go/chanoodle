@@ -6,14 +6,16 @@ import (
 )
 
 type AnonymousChannel struct {
-	Name   string               `json:"name,omitzero"    validate:"required"`
-	Genres []dto.AnonymousGenre `json:"genres,omitempty"`
+	Name     string               `json:"name,omitzero"     validate:"required"`
+	Priority int                  `json:"priority,omitzero"`
+	Genres   []dto.AnonymousGenre `json:"genres,omitempty"`
 }
 
 type Channel struct {
-	ID     int         `json:"id,omitzero"      validate:"required"`
-	Name   string      `json:"name,omitzero"    validate:"required"`
-	Genres []dto.Genre `json:"genres,omitempty"`
+	ID       int         `json:"id,omitzero"       validate:"required"`
+	Name     string      `json:"name,omitzero"     validate:"required"`
+	Priority int         `json:"priority,omitzero"`
+	Genres   []dto.Genre `json:"genres,omitempty"`
 }
 
 func NewChannelFromEntity(channel entity.Channel) Channel {
@@ -23,8 +25,9 @@ func NewChannelFromEntity(channel entity.Channel) Channel {
 	}
 
 	return Channel{
-		ID:     int(channel.ID),
-		Name:   channel.Name,
-		Genres: genres,
+		ID:       int(channel.ID),
+		Name:     channel.Name,
+		Priority: int(channel.Priority),
+		Genres:   genres,
 	}
 }

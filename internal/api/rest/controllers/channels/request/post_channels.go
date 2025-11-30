@@ -6,6 +6,7 @@ import (
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/channels/dto"
 	"github.com/course-go/chanoodle/internal/application/command"
 	"github.com/course-go/chanoodle/internal/domain/entity"
+	"github.com/course-go/chanoodle/internal/domain/value/priority"
 	"github.com/labstack/echo/v4"
 )
 
@@ -30,7 +31,8 @@ func ParsePostChannels(c echo.Context) (cmd command.CreateChannel, err error) {
 
 	return command.CreateChannel{
 		Channel: entity.AnonymousChannel{
-			Name: model.Data.Channel.Name,
+			Name:     model.Data.Channel.Name,
+			Priority: priority.Priority(model.Data.Channel.Priority),
 		},
 	}, nil
 }
