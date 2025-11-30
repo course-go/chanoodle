@@ -29,7 +29,8 @@ func (es *EPGService) ConstructEPG(channels []entity.Channel, events []entity.Ev
 	epgChannelsMap := make(map[id.ID]epg.Channel, len(channels))
 	for _, channel := range channels {
 		epgChannelsMap[channel.ID] = epg.Channel{
-			Name: channel.Name,
+			Name:     channel.Name,
+			Priority: channel.Priority,
 		}
 	}
 
@@ -77,7 +78,7 @@ func (es *EPGService) ConstructEPG(channels []entity.Channel, events []entity.Ev
 
 	// Sort channels based on their name.
 	slices.SortFunc(epgChannels, func(a, b epg.Channel) int {
-		return cmp.Compare(a.Name, b.Name)
+		return cmp.Compare(b.Priority, a.Priority)
 	})
 
 	return epg.EPG{
