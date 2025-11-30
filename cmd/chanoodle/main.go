@@ -16,8 +16,10 @@ import (
 	"github.com/course-go/chanoodle/internal/api/rest/middleware/auth"
 	application "github.com/course-go/chanoodle/internal/application/service"
 	"github.com/course-go/chanoodle/internal/config"
+	"github.com/course-go/chanoodle/internal/domain/interfaces/repository"
 	domain "github.com/course-go/chanoodle/internal/domain/service"
 	"github.com/course-go/chanoodle/internal/foundation/logger"
+	"github.com/course-go/chanoodle/internal/foundation/storage"
 	"github.com/course-go/chanoodle/internal/infrastructure/persistence/memory"
 	"github.com/rs/zerolog"
 )
@@ -59,9 +61,20 @@ func main() {
 }
 
 func runApp(log zerolog.Logger, config config.Chanoodle) error {
-	channelRepository := memory.NewChannelRepository(log)
-	eventRepository := memory.NewEventRepository(log)
-	genresRepository := memory.NewGenreRepository(log)
+	var (
+		channelRepository repository.ChannelRepository
+		eventRepository   repository.EventRepository
+		genresRepository  repository.GenreRepository
+	)
+
+	switch config.Storage.Type {
+	case storage.Memory:
+		channelRepository = memory.NewChannelRepository(log)
+		eventRepository = memory.NewEventRepository(log)
+		genresRepository = memory.NewGenreRepository(log)
+	default:
+		return storage.ErrUnknownType
+	}
 
 	domainEPGService := domain.NewEPGService(log)
 

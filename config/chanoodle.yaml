@@ -5,3 +5,6 @@ log_level: trace
 
 auth:
   api_key: "abc"
+
+storage:
+  type: memory

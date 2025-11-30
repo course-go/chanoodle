@@ -15,12 +15,13 @@ type Chanoodle struct {
 	LogLevel      string                  `yaml:"log_level"`
 	ListenAddress string                  `yaml:"listen_address"`
 
-	Auth Auth `yaml:"auth"`
+	Auth    Auth    `yaml:"auth"`
+	Storage Storage `yaml:"storage"`
 }
 
 // Parse parses the config from the given file path.
 func Parse(filePath string) (config Chanoodle, err error) {
-	config = newDefaultChanoodle()
+	config = defaultChanoodle()
 
 	data, err := os.ReadFile(filePath) //nolint: gosec
 	if err != nil {
@@ -45,17 +46,26 @@ func (c *Chanoodle) validate() error {
 		return environment.ErrUnknownEnvironment
 	}
 
-	if c.Auth.APIKey == "" {
-		return ErrNoAPIKeySet
+	err := c.Auth.validate()
+	if err != nil {
+		return fmt.Errorf("auth config validation failed: %w", err)
+	}
+
+	err = c.Storage.validate()
+	if err != nil {
+		return fmt.Errorf("storage config validation failed: %w", err)
 	}
 
 	return nil
 }
 
-func newDefaultChanoodle() Chanoodle {
+func defaultChanoodle() Chanoodle {
 	return Chanoodle{
 		Environment:   environment.Production,
 		ListenAddress: "localhost:8080",
 		LogLevel:      zerolog.InfoLevel.String(),
+
+		Auth:    defaultAuth(),
+		Storage: defaultStorage(),
 	}
 }
