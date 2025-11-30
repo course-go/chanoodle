@@ -6,6 +6,7 @@ import (
 	"slices"
 
 	"github.com/course-go/chanoodle/internal/foundation/environment"
+	"github.com/rs/zerolog"
 	"gopkg.in/yaml.v3"
 )
 
@@ -13,6 +14,8 @@ type Chanoodle struct {
 	Environment   environment.Environment `yaml:"environment"`
 	LogLevel      string                  `yaml:"log_level"`
 	ListenAddress string                  `yaml:"listen_address"`
+
+	Auth Auth `yaml:"auth"`
 }
 
 // Parse parses the config from the given file path.
@@ -42,6 +45,10 @@ func (c *Chanoodle) validate() error {
 		return environment.ErrUnknownEnvironment
 	}
 
+	if c.Auth.APIKey == "" {
+		return ErrNoAPIKeySet
+	}
+
 	return nil
 }
 
@@ -49,5 +56,6 @@ func newDefaultChanoodle() Chanoodle {
 	return Chanoodle{
 		Environment:   environment.Production,
 		ListenAddress: "localhost:8080",
+		LogLevel:      zerolog.InfoLevel.String(),
 	}
 }

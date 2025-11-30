@@ -19,14 +19,24 @@ import (
 const requestTimeout = 30 * time.Second
 
 type API struct {
+	apiKeyAuth auth.APIKey
+
 	channelsAPI channels.API
 	eventsAPI   events.API
 	genresAPI   genres.API
 	epgAPI      epg.API
 }
 
-func NewAPI(channelsAPI channels.API, eventsAPI events.API, genresAPI genres.API, epgAPI epg.API) API {
+func NewAPI(
+	apiKeyAuth auth.APIKey,
+	channelsAPI channels.API,
+	eventsAPI events.API,
+	genresAPI genres.API,
+	epgAPI epg.API,
+) API {
 	return API{
+		apiKeyAuth: apiKeyAuth,
+
 		channelsAPI: channelsAPI,
 		eventsAPI:   eventsAPI,
 		genresAPI:   genresAPI,
@@ -45,11 +55,11 @@ func (a *API) Router(log zerolog.Logger) *echo.Echo {
 	api.Use(
 		middleware.Recover(),
 		middleware.Secure(),
+		a.apiKeyAuth.KeyAuthMiddleware(),
 		middleware.ContextTimeout(requestTimeout),
 		lecho.Middleware(lecho.Config{
 			Logger: logger,
 		}),
-		auth.KeyAuthMiddleware(),
 	)
 
 	a.channelsAPI.MountRoutes(api)

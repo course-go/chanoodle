@@ -13,6 +13,7 @@ import (
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/epg"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/events"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/genres"
+	"github.com/course-go/chanoodle/internal/api/rest/middleware/auth"
 	application "github.com/course-go/chanoodle/internal/application/service"
 	"github.com/course-go/chanoodle/internal/config"
 	domain "github.com/course-go/chanoodle/internal/domain/service"
@@ -74,7 +75,9 @@ func runApp(log zerolog.Logger, config config.Chanoodle) error {
 	genresAPI := genres.NewAPI(log, applicationGenreService)
 	epgAPI := epg.NewAPI(log, applicationEPGService)
 
-	api := rest.NewAPI(channelAPI, eventAPI, genresAPI, epgAPI)
+	apiKeyAuth := auth.NewAPIKey(config.Auth)
+
+	api := rest.NewAPI(apiKeyAuth, channelAPI, eventAPI, genresAPI, epgAPI)
 
 	router := api.Router(log)
 
