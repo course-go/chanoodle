@@ -1,7 +1,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/course-go/chanoodle)](https://goreportcard.com/report/github.com/course-go/chanoodle)
 ![Go version](https://img.shields.io/github/go-mod/go-version/course-go/chanoodle)
 
-# Chanoodle: Containerization & Persistence
+# Chanoodle
 
 Chanoodle is channel and event metadata service.
 
@@ -70,23 +70,6 @@ than PostgreSQL, provide a reasoning in the `REASONING.md` file.
 Please do not use file based solutions like [SQLite](https://sqlite.org/).
 Our goal here, among others, is to practice multi-service communication using Compose
 and using file based solutions that do not run their own process beats the purpose.
-
-### Bonus
-
-Reuse the in-memory storage as a local cache for all of the database data.
-For example, you can preload all of your data at the start of the application
-and only query the database when altering records.
-
-Please note, that while this approach will save you trips to the database, it isn't
-really scalable. If you would like to horizontally scale the API with
-such cache, you will have to deal with some kind of cache data synchronization
-or invalidation. However, as this is rather complex issue, you can safely
-ignore it in this assignment. Same goes for any "memory size issues", i.e.
-you can expect that the stored data is reasonably big.
-
-You can earn up to **4 points** for implementing this bonus.
-
-If you decide to implement the bonus, please do so in an additional commit.
 
 ## Requirements
 
