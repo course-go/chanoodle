@@ -62,21 +62,14 @@ func (c *ChannelRepository) Channel(channelID id.ID) (channel entity.Channel, er
 
 // CreateChannel implements [repository.ChannelRepository].
 func (c *ChannelRepository) CreateChannel(
-	anonymousChannels []entity.AnonymousChannel,
+	anonymousChannel entity.AnonymousChannel,
 ) (channel entity.Channel, err error) {
-	if len(anonymousChannels) == 0 {
-		return entity.Channel{}, id.ErrNoSuchEntity
-	}
-
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
-	// Create all channels in the slice, return the last one
-	for _, anonymousChannel := range anonymousChannels {
-		c.channelID++
-		channel = anonymousChannel.ToChannel(c.channelID)
-		c.channels[c.channelID] = channel
-	}
+	c.channelID++
+	channel = anonymousChannel.ToChannel(c.channelID)
+	c.channels[c.channelID] = channel
 
 	return channel, nil
 }
