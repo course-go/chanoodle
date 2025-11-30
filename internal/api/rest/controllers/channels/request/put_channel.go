@@ -3,6 +3,7 @@ package request
 import (
 	"fmt"
 
+	"github.com/course-go/chanoodle/internal/api/rest/controllers/channels/dto"
 	"github.com/course-go/chanoodle/internal/application/command"
 	"github.com/course-go/chanoodle/internal/domain/entity"
 	"github.com/course-go/chanoodle/internal/domain/value/id"
@@ -12,7 +13,7 @@ import (
 type PutChannel struct {
 	ID   id.ID `param:"id"`
 	Data struct {
-		Channel entity.AnonymousChannel `json:"channel" validate:"required"`
+		Channel dto.AnonymousChannel `json:"channel" validate:"required"`
 	} `           json:"data" validate:"required"`
 }
 
