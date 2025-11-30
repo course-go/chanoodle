@@ -49,6 +49,8 @@ func (es *EPGService) ConstructEPG(channels []entity.Channel, events []entity.Ev
 			From: event.From,
 			To:   event.To,
 		})
+
+		epgChannelsMap[event.Channel] = channel
 	}
 
 	// Do not display channels without events.
