@@ -10,10 +10,12 @@ import (
 
 	"github.com/course-go/chanoodle/internal/api/rest"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/channels"
+	"github.com/course-go/chanoodle/internal/api/rest/controllers/epg"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/events"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/genres"
 	application "github.com/course-go/chanoodle/internal/application/service"
 	"github.com/course-go/chanoodle/internal/config"
+	domain "github.com/course-go/chanoodle/internal/domain/service"
 	"github.com/course-go/chanoodle/internal/foundation/logger"
 	"github.com/course-go/chanoodle/internal/infrastructure/persistence/memory"
 	"github.com/rs/zerolog"
@@ -60,14 +62,19 @@ func runApp(log zerolog.Logger, config config.Chanoodle) error {
 	eventRepository := memory.NewEventRepository(log)
 	genresRepository := memory.NewGenreRepository(log)
 
+	domainEPGService := domain.NewEPGService(log)
+
 	applicationChannelService := application.NewChannelService(log, channelRepository)
 	applicationEventService := application.NewEventService(log, eventRepository)
 	applicationGenreService := application.NewGenreService(log, genresRepository)
+	applicationEPGService := application.NewEPGService(log, domainEPGService, channelRepository, eventRepository)
 
 	channelAPI := channels.NewAPI(log, applicationChannelService)
 	eventAPI := events.NewAPI(log, applicationEventService)
 	genresAPI := genres.NewAPI(log, applicationGenreService)
-	api := rest.NewAPI(channelAPI, eventAPI, genresAPI)
+	epgAPI := epg.NewAPI(log, applicationEPGService)
+
+	api := rest.NewAPI(channelAPI, eventAPI, genresAPI, epgAPI)
 
 	router := api.Router(log)
 
