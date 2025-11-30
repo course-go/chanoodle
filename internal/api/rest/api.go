@@ -25,6 +25,8 @@ type API struct {
 	eventsAPI   events.API
 	genresAPI   genres.API
 	epgAPI      epg.API
+
+	validator *common.Validator
 }
 
 func NewAPI(
@@ -41,6 +43,8 @@ func NewAPI(
 		eventsAPI:   eventsAPI,
 		genresAPI:   genresAPI,
 		epgAPI:      epgAPI,
+
+		validator: common.NewValidator(),
 	}
 }
 
@@ -50,6 +54,7 @@ func (a *API) Router(log zerolog.Logger) *echo.Echo {
 	logger := lecho.From(log)
 	e.Logger = logger
 	e.HTTPErrorHandler = a.errorHandler
+	e.Validator = a.validator
 
 	api := e.Group("/api/v1")
 	api.Use(
