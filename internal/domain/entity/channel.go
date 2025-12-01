@@ -5,6 +5,7 @@ import (
 	"github.com/course-go/chanoodle/internal/domain/value/priority"
 )
 
+// AnonymousChannel represents a [Channel] without ID and entity relations.
 type AnonymousChannel struct {
 	Name     string
 	Priority priority.Priority
@@ -25,6 +26,7 @@ func (ac *AnonymousChannel) ToChannel(id id.ID, genres []Genre) Channel {
 	}
 }
 
+// Channel represents a TV channel.
 type Channel struct {
 	ID       id.ID
 	Name     string

@@ -1,5 +1,6 @@
 package common
 
+// Response is a generic HTTP response wrapper.
 type Response struct {
 	Data  any    `json:"data,omitzero"`
 	Error string `json:"error,omitzero"`

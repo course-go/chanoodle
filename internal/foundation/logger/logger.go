@@ -10,6 +10,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
+// New creates a new zerolog.Logger based on the provided log level and environment.
 func New(rawLevel string, env environment.Environment) (log zerolog.Logger, err error) {
 	writer, err := newLoggerWriter(env)
 	if err != nil {

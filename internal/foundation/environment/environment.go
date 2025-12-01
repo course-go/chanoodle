@@ -4,6 +4,7 @@ import "errors"
 
 var ErrUnknownEnvironment = errors.New("unknown environment")
 
+// Environment represents the application environment.
 type Environment string
 
 const (

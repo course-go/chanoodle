@@ -4,6 +4,7 @@ import "errors"
 
 var ErrNoAPIKeySet = errors.New("no API key set")
 
+// Auth represents authentication configuration.
 type Auth struct {
 	APIKey string `yaml:"api_key"`
 }

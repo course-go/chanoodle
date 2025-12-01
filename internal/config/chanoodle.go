@@ -10,6 +10,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+// Chanoodle represents the main application config.
 type Chanoodle struct {
 	Environment   environment.Environment `yaml:"environment"`
 	LogLevel      string                  `yaml:"log_level"`

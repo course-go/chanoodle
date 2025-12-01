@@ -6,6 +6,7 @@ import (
 	"github.com/course-go/chanoodle/internal/foundation/storage"
 )
 
+// Storage represents storage configuration.
 type Storage struct {
 	Type storage.Type `yaml:"type"`
 }

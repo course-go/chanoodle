@@ -12,6 +12,7 @@ import (
 
 var ErrInvalidAPIKeyProvided = errors.New("provided API key is invalid")
 
+// APIKey represents API key authentication middleware.
 type APIKey struct {
 	config config.Auth
 }

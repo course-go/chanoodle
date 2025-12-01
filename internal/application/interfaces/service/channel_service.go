@@ -5,6 +5,7 @@ import (
 	"github.com/course-go/chanoodle/internal/application/query"
 )
 
+// ChannelService defines all supported Channel related use-cases.
 type ChannelService interface {
 	Channels(q query.Channels) (r query.ChannelsResult, err error)
 	Channel(q query.Channel) (r query.ChannelResult, err error)

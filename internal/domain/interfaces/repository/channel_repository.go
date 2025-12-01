@@ -7,6 +7,7 @@ import (
 	"github.com/course-go/chanoodle/internal/domain/value/pagination"
 )
 
+// ChannelRepository represents a repository for managing [entity.Channel]s.
 type ChannelRepository interface {
 	Channels(
 		filter channels.Filter,

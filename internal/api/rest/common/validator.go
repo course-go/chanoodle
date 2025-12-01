@@ -9,6 +9,7 @@ import (
 
 var _ echo.Validator = &Validator{}
 
+// Validator is an echo compliant validator wrapper.
 type Validator struct {
 	validator *validator.Validate
 }

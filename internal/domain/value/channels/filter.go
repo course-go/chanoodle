@@ -7,6 +7,7 @@ import (
 	"github.com/course-go/chanoodle/internal/domain/value/id"
 )
 
+// Filter represents filtering parameters for [entity.Channel].
 type Filter struct {
 	Genres []id.ID
 }

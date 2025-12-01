@@ -6,6 +6,7 @@ var ErrInvalidPagination = errors.New("invalid pagination parameters")
 
 const defaultLimit = 250
 
+// Pagination represents pagination parameters.
 type Pagination[T any] struct {
 	limit  int
 	offset int

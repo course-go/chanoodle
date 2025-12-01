@@ -7,6 +7,7 @@ import (
 	"github.com/course-go/chanoodle/internal/domain/value/pagination"
 )
 
+// EventRepository represents a repository for managing [entity.Event]s.
 type EventRepository interface {
 	Events(
 		filter events.Filter,

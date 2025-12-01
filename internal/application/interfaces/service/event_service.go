@@ -5,6 +5,7 @@ import (
 	"github.com/course-go/chanoodle/internal/application/query"
 )
 
+// EventService defines all supported Event related use-cases.
 type EventService interface {
 	Events(q query.Events) (r query.EventsResult, err error)
 	Event(q query.Event) (r query.EventResult, err error)

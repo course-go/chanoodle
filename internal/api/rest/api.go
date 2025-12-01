@@ -18,6 +18,7 @@ import (
 
 const requestTimeout = 30 * time.Second
 
+// API represents the REST API.
 type API struct {
 	apiKeyAuth auth.APIKey
 

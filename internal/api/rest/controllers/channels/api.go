@@ -12,6 +12,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
+// API represents the Channel REST API subgroup.
 type API struct {
 	log            zerolog.Logger
 	channelService application.ChannelService

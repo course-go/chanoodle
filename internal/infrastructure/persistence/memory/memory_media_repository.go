@@ -17,6 +17,7 @@ import (
 
 var _ repository.MediaRepository = &MediaRepository{}
 
+// MediaRepository is an in-memory implementation of [repository.MediaRepository].
 type MediaRepository struct {
 	log zerolog.Logger
 

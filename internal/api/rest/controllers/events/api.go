@@ -12,6 +12,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
+// API represents the Event REST API subgroup.
 type API struct {
 	log          zerolog.Logger
 	eventService application.EventService
