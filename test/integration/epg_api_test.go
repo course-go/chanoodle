@@ -8,6 +8,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/course-go/chanoodle/internal/api/rest/common"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/epg/dto"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/epg/response"
 	"github.com/course-go/chanoodle/internal/api/rest/middleware/auth"
@@ -172,9 +173,7 @@ func TestGetEPGController(t *testing.T) {
 
 		assert.Equal(t, http.StatusBadRequest, rec.Code)
 
-		var resp struct {
-			Error string `json:"error"`
-		}
+		var resp common.Response
 
 		err := json.Unmarshal(rec.Body.Bytes(), &resp)
 		require.NoError(t, err)

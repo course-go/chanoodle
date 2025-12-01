@@ -12,6 +12,7 @@ import (
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/channels/response"
 	dtogenre "github.com/course-go/chanoodle/internal/api/rest/controllers/genres/dto"
 	"github.com/course-go/chanoodle/internal/api/rest/middleware/auth"
+	"github.com/course-go/chanoodle/internal/domain/value/id"
 	"github.com/course-go/chanoodle/test/setup"
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
@@ -212,6 +213,13 @@ func TestGetChannelController(t *testing.T) {
 		d.Router.ServeHTTP(rec, req)
 
 		assert.Equal(t, http.StatusBadRequest, rec.Code)
+
+		var resp common.Response
+
+		err := json.Unmarshal(rec.Body.Bytes(), &resp)
+		require.NoError(t, err)
+
+		assert.NotEmpty(t, resp.Error)
 	})
 
 	t.Run("GetNonexistentChannelByID_ReturnsNotFound", func(t *testing.T) {
@@ -228,6 +236,14 @@ func TestGetChannelController(t *testing.T) {
 		d.Router.ServeHTTP(rec, req)
 
 		assert.Equal(t, http.StatusNotFound, rec.Code)
+
+		var resp common.Response
+
+		err := json.Unmarshal(rec.Body.Bytes(), &resp)
+		require.NoError(t, err)
+
+		assert.NotEmpty(t, resp.Error)
+		assert.Contains(t, resp.Error, id.ErrNoSuchEntity.Error())
 	})
 }
 
