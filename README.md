@@ -9,6 +9,25 @@ Chanoodle is channel and event metadata service.
 
 Illustration credit: [MariaLetta](https://github.com/MariaLetta/free-gophers-pack)
 
+## Architecture
+
+The application internally uses the [Hexagonal architecture](<https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)>) (also known as the "Port and adapters", "Onion architecture" or "Clean architecture" - although these can deviate, they are basically the same thing).
+
+<img src="assets/architecture.svg" alt="Chanoodle architecture" width="1200">
+
+### Layers
+
+If this is your first time dealing with such architecture, here is a brief overview of the layers and their responsibilities:
+
+- The **API layer** is responsible for exposing the application functionality to the outside world. In Chanoodle, this is implemented using a REST API.
+- The business layer (no layer is actually called that, it is just an umbrella term) is made up of the application and domain layers.
+  - The **Domain layer** contains the core business logic and rules. It is independent of any other layers and should not have any dependencies on them. Apart from interfaces (ports) implemented by other layers, it defines:
+    - Entities - the main data structures used in the application. All entities can be uniquely identified using an ID.
+    - Value objects - data structures that do not have a unique identity and are defined by their attributes.
+    - Domain services - stateless services that encapsulate business logic that does not naturally fit within an entity or value object.
+  - The **Application layer** contains application-specific business logic. It orchestrates the interactions between the domain layer and the external layers (API, persistence). It defines use cases that represent the main functionalities of the application.
+- In the **Infrastructure layer**, we have the implementations of the interfaces defined in the domain layer. In Chanoodle, this includes the persistence layer that interacts with the database.
+
 ## Assignment
 
 Chanoodle already implements a REST API exposing the basic functionality.
