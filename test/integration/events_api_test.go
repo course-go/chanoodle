@@ -222,6 +222,22 @@ func TestGetEventController(t *testing.T) {
 
 		assert.Equal(t, http.StatusBadRequest, rec.Code)
 	})
+
+	t.Run("GetNonexistentEventByID_ReturnsNotFound", func(t *testing.T) {
+		t.Parallel()
+
+		d := setup.NewDependencies(t, config)
+		setup.Seed(t, d)
+
+		req := httptest.NewRequest(http.MethodGet, "/api/v1/events/69", nil)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
+
+		rec := httptest.NewRecorder()
+
+		d.Router.ServeHTTP(rec, req)
+
+		assert.Equal(t, http.StatusNotFound, rec.Code)
+	})
 }
 
 func TestPostEventsController(t *testing.T) {
