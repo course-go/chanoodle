@@ -3,7 +3,7 @@
 
 # Chanoodle
 
-Chanoodle is channel and event metadata service.
+Chanoodle is an EPG, channel and event metadata service. It exposes this data using REST API.
 
 <img src="assets/gopher-noodles.svg" alt="Gopher noodles" width="300">
 
@@ -32,7 +32,7 @@ If this is your first time dealing with such architecture, here is a brief overv
 
 Chanoodle already implements a REST API exposing the basic functionality.
 However, as this project was only a POC (proof-of-concept) the developers only
-implemented a in-memory data store.
+implemented an in-memory data store.
 
 You goal will be to implement an actual persistent database layer, containerize the
 application and add database dependency using Docker compose.
@@ -78,13 +78,12 @@ Note that you will need to mount a volume for the database to persist its data.
 
 #### Persistence
 
-Replace the previously implemented in-memory storage with persistent one.
-For this, you can choose whatever relational database system
-you like, but [PostgreSQL](https://hub.docker.com/_/postgres) is recommended.
+Add a support for an actual relational database.
+For this, you can choose whatever relational database system you like.
 As previously mentioned, the library used is also up to you.
 
-If you choose to use a different database system
-than PostgreSQL, provide a reasoning in the `REASONING.md` file.
+As with the library, provide a reasoning for the chosen database system in
+the `REASONING.md` file.
 
 Please do not use file based solutions like [SQLite](https://sqlite.org/).
 Our goal here, among others, is to practice multi-service communication using Compose
@@ -94,6 +93,8 @@ and using file based solutions that do not run their own process beats the purpo
 
 The application is runnable by executing `docker compose up` command
 and it persists its data using the database system and the library of your choice.
+The storage implementation choice can also be configured using the configuration
+file.
 
 ## Motivation
 
