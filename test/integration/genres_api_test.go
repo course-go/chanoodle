@@ -10,7 +10,9 @@ import (
 	"github.com/course-go/chanoodle/internal/api/rest/common"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/genres/dto"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/genres/response"
+	"github.com/course-go/chanoodle/internal/api/rest/middleware/auth"
 	"github.com/course-go/chanoodle/test/setup"
+	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -27,7 +29,7 @@ func TestGetGenresController(t *testing.T) {
 		setup.Seed(t, d)
 
 		req := httptest.NewRequest(http.MethodGet, "/api/v1/genres", nil)
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -64,7 +66,7 @@ func TestGetGenresController(t *testing.T) {
 		setup.Seed(t, d)
 
 		req := httptest.NewRequest(http.MethodGet, "/api/v1/genres?limit=2&offset=2", nil)
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -112,8 +114,8 @@ func TestPostGenresController(t *testing.T) {
 		}`
 
 		req := httptest.NewRequest(http.MethodPost, "/api/v1/genres", bytes.NewBufferString(reqBody))
-		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -152,8 +154,8 @@ func TestPostGenresController(t *testing.T) {
 		}`
 
 		req := httptest.NewRequest(http.MethodPost, "/api/v1/genres", bytes.NewBufferString(reqBody))
-		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -190,8 +192,8 @@ func TestPostGenresController(t *testing.T) {
 		}`
 
 		req := httptest.NewRequest(http.MethodPost, "/api/v1/genres", bytes.NewBufferString(reqBody))
-		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 

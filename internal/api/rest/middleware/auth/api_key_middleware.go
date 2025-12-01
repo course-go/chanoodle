@@ -10,6 +10,8 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
+const HeaderAPIKey = "X-Api-Key" //nolint: gosec
+
 var ErrInvalidAPIKeyProvided = errors.New("provided API key is invalid")
 
 // APIKey represents API key authentication middleware.
@@ -26,7 +28,7 @@ func NewAPIKey(config config.Auth) APIKey {
 func (ak *APIKey) KeyAuthMiddleware() echo.MiddlewareFunc {
 	return middleware.KeyAuthWithConfig(
 		middleware.KeyAuthConfig{
-			KeyLookup:    "header:X-Api-Key",
+			KeyLookup:    "header:" + HeaderAPIKey,
 			Validator:    ak.validator,
 			ErrorHandler: ak.errorHandler,
 		},

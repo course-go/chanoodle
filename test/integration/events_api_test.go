@@ -13,7 +13,9 @@ import (
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/events/dto"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/events/response"
 	dtogenre "github.com/course-go/chanoodle/internal/api/rest/controllers/genres/dto"
+	"github.com/course-go/chanoodle/internal/api/rest/middleware/auth"
 	"github.com/course-go/chanoodle/test/setup"
+	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -32,7 +34,7 @@ func TestGetEventsController(t *testing.T) {
 		date := setup.Date()
 
 		req := httptest.NewRequest(http.MethodGet, "/api/v1/events?limit=100", nil)
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -104,7 +106,7 @@ func TestGetEventsController(t *testing.T) {
 		date := setup.Date()
 
 		req := httptest.NewRequest(http.MethodGet, "/api/v1/events?limit=2&offset=1", nil)
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -170,7 +172,7 @@ func TestGetEventController(t *testing.T) {
 		date := setup.Date()
 
 		req := httptest.NewRequest(http.MethodGet, "/api/v1/events/1", nil)
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -212,7 +214,7 @@ func TestGetEventController(t *testing.T) {
 		setup.Seed(t, d)
 
 		req := httptest.NewRequest(http.MethodGet, "/api/v1/events/invalid", nil)
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -249,8 +251,8 @@ func TestPostEventsController(t *testing.T) {
 		}`, from.Format(time.RFC3339), to.Format(time.RFC3339))
 
 		req := httptest.NewRequest(http.MethodPost, "/api/v1/events", bytes.NewBufferString(reqBody))
-		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -292,8 +294,8 @@ func TestPostEventsController(t *testing.T) {
 		}`
 
 		req := httptest.NewRequest(http.MethodPost, "/api/v1/events", bytes.NewBufferString(reqBody))
-		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -338,8 +340,8 @@ func TestPutEventsController(t *testing.T) {
 		}`, from.Format(time.RFC3339), to.Format(time.RFC3339))
 
 		putReq := httptest.NewRequest(http.MethodPut, "/api/v1/events/1", bytes.NewBufferString(reqBody))
-		putReq.Header.Set("Content-Type", "application/json")
-		putReq.Header.Set("X-Api-Key", config.Auth.APIKey)
+		putReq.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		putReq.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		putRec := httptest.NewRecorder()
 
@@ -348,7 +350,7 @@ func TestPutEventsController(t *testing.T) {
 		assert.Equal(t, http.StatusOK, putRec.Code)
 
 		getReq := httptest.NewRequest(http.MethodGet, "/api/v1/events/1", nil)
-		getReq.Header.Set("X-Api-Key", config.Auth.APIKey)
+		getReq.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		getRec := httptest.NewRecorder()
 
@@ -390,8 +392,8 @@ func TestPutEventsController(t *testing.T) {
 		}`
 
 		req := httptest.NewRequest(http.MethodPut, "/api/v1/events/1", bytes.NewBufferString(reqBody))
-		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 

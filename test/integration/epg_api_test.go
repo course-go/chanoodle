@@ -10,6 +10,7 @@ import (
 
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/epg/dto"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/epg/response"
+	"github.com/course-go/chanoodle/internal/api/rest/middleware/auth"
 	"github.com/course-go/chanoodle/test/setup"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -39,7 +40,7 @@ func TestGetEPGController(t *testing.T) {
 			),
 			nil,
 		)
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -115,7 +116,7 @@ func TestGetEPGController(t *testing.T) {
 			),
 			nil,
 		)
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -163,7 +164,7 @@ func TestGetEPGController(t *testing.T) {
 			"/api/v1/epg?from=invalid&to=invalid",
 			nil,
 		)
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 

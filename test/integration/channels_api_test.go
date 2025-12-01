@@ -11,7 +11,9 @@ import (
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/channels/dto"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/channels/response"
 	dtogenre "github.com/course-go/chanoodle/internal/api/rest/controllers/genres/dto"
+	"github.com/course-go/chanoodle/internal/api/rest/middleware/auth"
 	"github.com/course-go/chanoodle/test/setup"
+	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -28,7 +30,7 @@ func TestGetChannelsController(t *testing.T) {
 		setup.Seed(t, d)
 
 		req := httptest.NewRequest(http.MethodGet, "/api/v1/channels?limit=100", nil)
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -103,7 +105,7 @@ func TestGetChannelsController(t *testing.T) {
 		setup.Seed(t, d)
 
 		req := httptest.NewRequest(http.MethodGet, "/api/v1/channels?limit=2&offset=1", nil)
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -163,7 +165,7 @@ func TestGetChannelController(t *testing.T) {
 		setup.Seed(t, d)
 
 		req := httptest.NewRequest(http.MethodGet, "/api/v1/channels/1", nil)
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -203,7 +205,7 @@ func TestGetChannelController(t *testing.T) {
 		setup.Seed(t, d)
 
 		req := httptest.NewRequest(http.MethodGet, "/api/v1/channels/invalid", nil)
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -233,8 +235,8 @@ func TestPostChannelsController(t *testing.T) {
 		}`
 
 		req := httptest.NewRequest(http.MethodPost, "/api/v1/channels", bytes.NewBufferString(reqBody))
-		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -274,8 +276,8 @@ func TestPostChannelsController(t *testing.T) {
 		}`
 
 		req := httptest.NewRequest(http.MethodPost, "/api/v1/channels", bytes.NewBufferString(reqBody))
-		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
@@ -314,8 +316,8 @@ func TestPutChannelsController(t *testing.T) {
 		}`
 
 		putReq := httptest.NewRequest(http.MethodPut, "/api/v1/channels/1", bytes.NewBufferString(reqBody))
-		putReq.Header.Set("Content-Type", "application/json")
-		putReq.Header.Set("X-Api-Key", config.Auth.APIKey)
+		putReq.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		putReq.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		putRec := httptest.NewRecorder()
 
@@ -324,7 +326,7 @@ func TestPutChannelsController(t *testing.T) {
 		assert.Equal(t, http.StatusOK, putRec.Code)
 
 		getReq := httptest.NewRequest(http.MethodGet, "/api/v1/channels/1", nil)
-		getReq.Header.Set("X-Api-Key", config.Auth.APIKey)
+		getReq.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		getRec := httptest.NewRecorder()
 
@@ -364,8 +366,8 @@ func TestPutChannelsController(t *testing.T) {
 		}`
 
 		req := httptest.NewRequest(http.MethodPut, "/api/v1/channels/1", bytes.NewBufferString(reqBody))
-		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("X-Api-Key", config.Auth.APIKey)
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
 
