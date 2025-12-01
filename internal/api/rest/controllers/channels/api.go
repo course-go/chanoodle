@@ -1,6 +1,7 @@
 package channels
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -8,6 +9,7 @@ import (
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/channels/request"
 	"github.com/course-go/chanoodle/internal/api/rest/controllers/channels/response"
 	application "github.com/course-go/chanoodle/internal/application/interfaces/service"
+	"github.com/course-go/chanoodle/internal/domain/value/id"
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog"
 )
@@ -65,6 +67,12 @@ func (a *API) getChannelController(c echo.Context) error {
 	}
 
 	qr, err := a.channelService.Channel(q)
+	if errors.Is(err, id.ErrNoSuchEntity) {
+		c.Response().Status = http.StatusNotFound
+
+		return fmt.Errorf("channel not found: %w", err)
+	}
+
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
 
