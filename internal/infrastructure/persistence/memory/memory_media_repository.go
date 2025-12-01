@@ -21,7 +21,7 @@ var _ repository.MediaRepository = &MediaRepository{}
 type MediaRepository struct {
 	log zerolog.Logger
 
-	mu        sync.Mutex
+	mu        sync.RWMutex
 	channelID id.ID
 	eventID   id.ID
 	genreID   id.ID
@@ -44,8 +44,8 @@ func (mr *MediaRepository) Channels(
 	filter channels.Filter,
 	pagination *pagination.Pagination[entity.Channel],
 ) (channels []entity.Channel, err error) {
-	mr.mu.Lock()
-	defer mr.mu.Unlock()
+	mr.mu.RLock()
+	defer mr.mu.RUnlock()
 
 	channels = make([]entity.Channel, 0, len(mr.channels))
 	for _, channel := range mr.channels {
@@ -67,8 +67,8 @@ func (mr *MediaRepository) Channels(
 
 // Channel implements [repository.ChannelRepository].
 func (mr *MediaRepository) Channel(channelID id.ID) (channel entity.Channel, err error) {
-	mr.mu.Lock()
-	defer mr.mu.Unlock()
+	mr.mu.RLock()
+	defer mr.mu.RUnlock()
 
 	channel, ok := mr.channels[channelID]
 	if !ok {
@@ -124,8 +124,8 @@ func (mr *MediaRepository) Events(
 	filter events.Filter,
 	pagination *pagination.Pagination[entity.Event],
 ) (events []entity.Event, err error) {
-	mr.mu.Lock()
-	defer mr.mu.Unlock()
+	mr.mu.RLock()
+	defer mr.mu.RUnlock()
 
 	events = make([]entity.Event, 0, len(mr.events))
 	for _, event := range mr.events {
@@ -147,8 +147,8 @@ func (mr *MediaRepository) Events(
 
 // Event implements [repository.EventRepository].
 func (mr *MediaRepository) Event(i id.ID) (event entity.Event, err error) {
-	mr.mu.Lock()
-	defer mr.mu.Unlock()
+	mr.mu.RLock()
+	defer mr.mu.RUnlock()
 
 	event, ok := mr.events[i]
 	if !ok {
@@ -198,8 +198,8 @@ func (mr *MediaRepository) UpdateEvent(i id.ID, anonymousEvent entity.AnonymousE
 
 // Genres implements [repository.GenreRepository].
 func (mr *MediaRepository) Genres(pagination *pagination.Pagination[entity.Genre]) (genres []entity.Genre, err error) {
-	mr.mu.Lock()
-	defer mr.mu.Unlock()
+	mr.mu.RLock()
+	defer mr.mu.RUnlock()
 
 	genres = make([]entity.Genre, 0, len(mr.genres))
 	for _, genre := range mr.genres {
