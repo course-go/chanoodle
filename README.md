@@ -3,11 +3,15 @@
 
 # Chanoodle
 
-Chanoodle is an EPG, channel and event metadata service. It exposes this data using REST API.
+Chanoodle is an EPG, channel and event metadata service.
+It exposes this data using REST API.
 
-<img src="assets/gopher-noodles.svg" alt="Gopher noodles" width="300">
-
-Illustration credit: [MariaLetta](https://github.com/MariaLetta/free-gophers-pack)
+<div align="center">
+    <img src="assets/gopher-noodles.svg" alt="Gopher noodles" width="360">
+    <p>
+        Illustration credit: <a href="https://github.com/MariaLetta/free-gophers-pack">MariaLetta</a>
+    </p>
+</div>
 
 ## Architecture
 
