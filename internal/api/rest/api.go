@@ -20,6 +20,7 @@ const requestTimeout = 30 * time.Second
 
 // API represents the REST API.
 type API struct {
+	log        zerolog.Logger
 	apiKeyAuth auth.APIKey
 
 	channelsAPI channels.API
@@ -31,6 +32,7 @@ type API struct {
 }
 
 func NewAPI(
+	log zerolog.Logger,
 	apiKeyAuth auth.APIKey,
 	channelsAPI channels.API,
 	eventsAPI events.API,
@@ -38,6 +40,7 @@ func NewAPI(
 	epgAPI epg.API,
 ) API {
 	return API{
+		log:        log.With().Str("component", "api/rest").Logger(),
 		apiKeyAuth: apiKeyAuth,
 
 		channelsAPI: channelsAPI,

@@ -84,7 +84,7 @@ func runApp(log zerolog.Logger, config config.Chanoodle) error {
 
 	apiKeyAuth := auth.NewAPIKey(config.Auth)
 
-	api := rest.NewAPI(apiKeyAuth, channelAPI, eventAPI, genresAPI, epgAPI)
+	api := rest.NewAPI(log, apiKeyAuth, channelAPI, eventAPI, genresAPI, epgAPI)
 
 	router := api.Router(log)
 

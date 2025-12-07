@@ -49,7 +49,7 @@ func NewDependencies(t *testing.T, config config.Chanoodle) Dependencies {
 
 	apiKeyAuth := auth.NewAPIKey(config.Auth)
 
-	api := rest.NewAPI(apiKeyAuth, channelAPI, eventAPI, genresAPI, epgAPI)
+	api := rest.NewAPI(log, apiKeyAuth, channelAPI, eventAPI, genresAPI, epgAPI)
 
 	return Dependencies{
 		Router: api.Router(log),
