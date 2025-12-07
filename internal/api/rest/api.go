@@ -80,10 +80,6 @@ func (a *API) Router(log zerolog.Logger) *echo.Echo {
 }
 
 func (a *API) errorHandler(err error, c echo.Context) {
-	if err == nil {
-		return
-	}
-
 	// Check if status was already set by handler.
 	status := c.Response().Status
 	if status == 0 {
