@@ -94,6 +94,15 @@ func (a *API) errorHandler(err error, c echo.Context) {
 
 	err = c.JSON(status, resp)
 	if err != nil {
-		_ = c.NoContent(http.StatusInternalServerError)
+		a.log.Warn().
+			Err(err).
+			Msg("failed sending error response with json")
+
+		err = c.NoContent(http.StatusInternalServerError)
+		if err != nil {
+			a.log.Warn().
+				Err(err).
+				Msg("failed sending error response without content")
+		}
 	}
 }

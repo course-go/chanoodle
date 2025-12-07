@@ -53,7 +53,10 @@ func (a *API) getChannelsController(c echo.Context) error {
 
 	data := response.NewGetChannels(qr)
 
-	_ = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	err = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	if err != nil {
+		return fmt.Errorf("failed sending response: %w", err)
+	}
 
 	return nil
 }
@@ -81,7 +84,10 @@ func (a *API) getChannelController(c echo.Context) error {
 
 	data := response.NewGetChannel(qr)
 
-	_ = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	err = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	if err != nil {
+		return fmt.Errorf("failed sending response: %w", err)
+	}
 
 	return nil
 }
@@ -103,7 +109,10 @@ func (a *API) postChannelsController(c echo.Context) error {
 
 	data := response.ParsePostChannels(cr)
 
-	_ = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	err = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	if err != nil {
+		return fmt.Errorf("failed sending response: %w", err)
+	}
 
 	return nil
 }
@@ -125,7 +134,10 @@ func (a *API) putChannelController(c echo.Context) error {
 
 	data := response.ParsePutChannel(cr)
 
-	_ = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	err = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	if err != nil {
+		return fmt.Errorf("failed sending response: %w", err)
+	}
 
 	return nil
 }

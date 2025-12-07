@@ -2,6 +2,7 @@ package auth
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/course-go/chanoodle/internal/api/rest/common"
@@ -45,16 +46,22 @@ func (ak *APIKey) validator(key string, c echo.Context) (bool, error) {
 
 func (ak *APIKey) errorHandler(err error, c echo.Context) error {
 	if errors.Is(err, ErrInvalidAPIKeyProvided) {
-		_ = c.JSON(http.StatusUnauthorized,
+		err = c.JSON(http.StatusUnauthorized,
 			common.NewErrorResponse(err),
 		)
+		if err != nil {
+			return fmt.Errorf("failed sending response: %w", err)
+		}
 
 		return nil
 	}
 
-	_ = c.JSON(http.StatusBadRequest,
+	err = c.JSON(http.StatusBadRequest,
 		common.NewErrorResponse(err),
 	)
+	if err != nil {
+		return fmt.Errorf("failed sending response: %w", err)
+	}
 
 	return nil
 }

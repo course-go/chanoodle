@@ -49,7 +49,10 @@ func (a *API) getGenresController(c echo.Context) error {
 
 	data := response.NewGetGenres(qr)
 
-	_ = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	err = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	if err != nil {
+		return fmt.Errorf("failed sending response: %w", err)
+	}
 
 	return nil
 }
@@ -71,7 +74,10 @@ func (a *API) postGenresController(c echo.Context) error {
 
 	data := response.NewPostGenres(cr)
 
-	_ = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	err = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	if err != nil {
+		return fmt.Errorf("failed sending response: %w", err)
+	}
 
 	return nil
 }

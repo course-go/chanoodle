@@ -53,7 +53,10 @@ func (a *API) getEventsController(c echo.Context) error {
 
 	data := response.ParseGetEvents(qr)
 
-	_ = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	err = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	if err != nil {
+		return fmt.Errorf("failed sending response: %w", err)
+	}
 
 	return nil
 }
@@ -81,7 +84,10 @@ func (a *API) getEventController(c echo.Context) error {
 
 	data := response.ParseGetEvent(qr)
 
-	_ = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	err = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	if err != nil {
+		return fmt.Errorf("failed sending response: %w", err)
+	}
 
 	return nil
 }
@@ -103,7 +109,10 @@ func (a *API) postEventsController(c echo.Context) error {
 
 	data := response.ParsePostEvents(cr)
 
-	_ = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	err = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	if err != nil {
+		return fmt.Errorf("failed sending response: %w", err)
+	}
 
 	return nil
 }
@@ -125,7 +134,10 @@ func (a *API) putEventController(c echo.Context) error {
 
 	data := response.ParsePutEvent(cr)
 
-	_ = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	err = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	if err != nil {
+		return fmt.Errorf("failed sending response: %w", err)
+	}
 
 	return nil
 }

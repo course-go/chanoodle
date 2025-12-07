@@ -48,7 +48,10 @@ func (a *API) getEPGController(c echo.Context) error {
 
 	data := response.NewGetEPG(qr)
 
-	_ = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	err = c.JSON(http.StatusOK, common.NewDataResponse(data))
+	if err != nil {
+		return fmt.Errorf("failed sending response: %w", err)
+	}
 
 	return nil
 }
