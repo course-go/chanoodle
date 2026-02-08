@@ -12,7 +12,7 @@ import (
 )
 
 type GetEvents struct {
-	Channels []id.ID `query:"genres"`
+	Channels []id.ID `query:"channels"`
 	Genres   []id.ID `query:"genres"`
 	Limit    int     `query:"limit"`
 	Offset   int     `query:"offset"`
