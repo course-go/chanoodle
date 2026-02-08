@@ -35,6 +35,7 @@ func ParsePostEvents(c echo.Context) (cmd command.CreateEvent, err error) {
 			Name:    model.Data.Event.Name,
 			From:    model.Data.Event.From,
 			To:      model.Data.Event.To,
+			Genres:  model.Data.Event.Genres,
 		},
 	}, nil
 }

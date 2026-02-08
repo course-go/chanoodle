@@ -33,6 +33,7 @@ func ParsePostChannels(c echo.Context) (cmd command.CreateChannel, err error) {
 		Channel: entity.AnonymousChannel{
 			Name:     model.Data.Channel.Name,
 			Priority: priority.Priority(model.Data.Channel.Priority),
+			Genres:   model.Data.Channel.Genres,
 		},
 	}, nil
 }
