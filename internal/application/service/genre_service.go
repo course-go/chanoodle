@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/course-go/chanoodle/internal/application/command"
@@ -25,8 +26,11 @@ func NewGenreService(log zerolog.Logger, genreRepository repository.GenreReposit
 }
 
 // Genres implements [service.GenreService].
-func (cs *GenreService) Genres(q query.Genres) (r query.GenresResult, err error) {
-	genres, err := cs.genreRepository.Genres(&q.Pagination)
+func (cs *GenreService) Genres(
+	ctx context.Context,
+	q query.Genres,
+) (r query.GenresResult, err error) {
+	genres, err := cs.genreRepository.Genres(ctx, &q.Pagination)
 	if err != nil {
 		return query.GenresResult{}, fmt.Errorf("failed getting genres from repository: %w", err)
 	}
@@ -37,8 +41,11 @@ func (cs *GenreService) Genres(q query.Genres) (r query.GenresResult, err error)
 }
 
 // CreateGenre implements [service.GenreService].
-func (cs *GenreService) CreateGenre(c command.CreateGenre) (r command.CreateGenreResult, err error) {
-	genre, err := cs.genreRepository.GetOrCreateGenre(c.Genre)
+func (cs *GenreService) CreateGenre(
+	ctx context.Context,
+	c command.CreateGenre,
+) (r command.CreateGenreResult, err error) {
+	genre, err := cs.genreRepository.GetOrCreateGenre(ctx, c.Genre)
 	if err != nil {
 		return command.CreateGenreResult{}, fmt.Errorf("failed getting or creating genre in repository: %w", err)
 	}

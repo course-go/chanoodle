@@ -33,6 +33,8 @@ func (a *API) MountRoutes(e *echo.Group) {
 }
 
 func (a *API) getGenresController(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	q, err := request.ParseGetGenres(c)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
@@ -40,7 +42,7 @@ func (a *API) getGenresController(c echo.Context) error {
 		return fmt.Errorf("failed parsing request: %w", err)
 	}
 
-	qr, err := a.genreService.Genres(q)
+	qr, err := a.genreService.Genres(ctx, q)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
 
@@ -58,6 +60,8 @@ func (a *API) getGenresController(c echo.Context) error {
 }
 
 func (a *API) postGenresController(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	cmd, err := request.ParsePostGenres(c)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
@@ -65,7 +69,7 @@ func (a *API) postGenresController(c echo.Context) error {
 		return fmt.Errorf("failed parsing request: %w", err)
 	}
 
-	cr, err := a.genreService.CreateGenre(cmd)
+	cr, err := a.genreService.CreateGenre(ctx, cmd)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
 

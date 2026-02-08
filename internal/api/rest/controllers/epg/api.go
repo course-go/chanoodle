@@ -32,6 +32,8 @@ func (a *API) MountRoutes(e *echo.Group) {
 }
 
 func (a *API) getEPGController(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	q, err := request.ParseGetEPG(c)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
@@ -39,7 +41,7 @@ func (a *API) getEPGController(c echo.Context) error {
 		return fmt.Errorf("failed parsing request: %w", err)
 	}
 
-	qr, err := a.epgService.EPG(q)
+	qr, err := a.epgService.EPG(ctx, q)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
 

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/course-go/chanoodle/internal/application/command"
@@ -25,8 +26,11 @@ func NewEventService(log zerolog.Logger, eventRepository repository.EventReposit
 }
 
 // Event implements [service.EventService].
-func (es *EventService) Event(q query.Event) (r query.EventResult, err error) {
-	event, err := es.eventRepository.Event(q.ID)
+func (es *EventService) Event(
+	ctx context.Context,
+	q query.Event,
+) (r query.EventResult, err error) {
+	event, err := es.eventRepository.Event(ctx, q.ID)
 	if err != nil {
 		return query.EventResult{}, fmt.Errorf("failed getting event from service: %w", err)
 	}
@@ -37,8 +41,11 @@ func (es *EventService) Event(q query.Event) (r query.EventResult, err error) {
 }
 
 // Events implements [service.EventService].
-func (es *EventService) Events(q query.Events) (r query.EventsResult, err error) {
-	events, err := es.eventRepository.Events(q.Filter, &q.Pagination)
+func (es *EventService) Events(
+	ctx context.Context,
+	q query.Events,
+) (r query.EventsResult, err error) {
+	events, err := es.eventRepository.Events(ctx, q.Filter, &q.Pagination)
 	if err != nil {
 		return query.EventsResult{}, fmt.Errorf("failed getting events from repository: %w", err)
 	}
@@ -49,8 +56,11 @@ func (es *EventService) Events(q query.Events) (r query.EventsResult, err error)
 }
 
 // CreateEvent implements [service.EventService].
-func (es *EventService) CreateEvent(c command.CreateEvent) (r command.CreateEventResult, err error) {
-	event, err := es.eventRepository.CreateEvent(c.Event)
+func (es *EventService) CreateEvent(
+	ctx context.Context,
+	c command.CreateEvent,
+) (r command.CreateEventResult, err error) {
+	event, err := es.eventRepository.CreateEvent(ctx, c.Event)
 	if err != nil {
 		return command.CreateEventResult{}, fmt.Errorf("failed creating event in repository: %w", err)
 	}
@@ -61,8 +71,11 @@ func (es *EventService) CreateEvent(c command.CreateEvent) (r command.CreateEven
 }
 
 // UpdateEvent implements [service.EventService].
-func (es *EventService) UpdateEvent(c command.UpdateEvent) (r command.UpdateEventResult, err error) {
-	err = es.eventRepository.UpdateEvent(c.ID, c.Event)
+func (es *EventService) UpdateEvent(
+	ctx context.Context,
+	c command.UpdateEvent,
+) (r command.UpdateEventResult, err error) {
+	err = es.eventRepository.UpdateEvent(ctx, c.ID, c.Event)
 	if err != nil {
 		return command.UpdateEventResult{}, fmt.Errorf("failed updating event in repository: %w", err)
 	}

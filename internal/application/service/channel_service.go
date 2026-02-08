@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/course-go/chanoodle/internal/application/command"
@@ -25,8 +26,11 @@ func NewChannelService(log zerolog.Logger, channelRepository repository.ChannelR
 }
 
 // Channel implements [service.ChannelService].
-func (cs *ChannelService) Channel(q query.Channel) (r query.ChannelResult, err error) {
-	channel, err := cs.channelRepository.Channel(q.ID)
+func (cs *ChannelService) Channel(
+	ctx context.Context,
+	q query.Channel,
+) (r query.ChannelResult, err error) {
+	channel, err := cs.channelRepository.Channel(ctx, q.ID)
 	if err != nil {
 		return query.ChannelResult{}, fmt.Errorf("failed getting channel from repository: %w", err)
 	}
@@ -37,8 +41,11 @@ func (cs *ChannelService) Channel(q query.Channel) (r query.ChannelResult, err e
 }
 
 // Channels implements [service.ChannelService].
-func (cs *ChannelService) Channels(q query.Channels) (r query.ChannelsResult, err error) {
-	channels, err := cs.channelRepository.Channels(q.Filter, &q.Pagination)
+func (cs *ChannelService) Channels(
+	ctx context.Context,
+	q query.Channels,
+) (r query.ChannelsResult, err error) {
+	channels, err := cs.channelRepository.Channels(ctx, q.Filter, &q.Pagination)
 	if err != nil {
 		return query.ChannelsResult{}, fmt.Errorf("failed getting channels from repository: %w", err)
 	}
@@ -49,8 +56,11 @@ func (cs *ChannelService) Channels(q query.Channels) (r query.ChannelsResult, er
 }
 
 // CreateChannel implements [service.ChannelService].
-func (cs *ChannelService) CreateChannel(c command.CreateChannel) (r command.CreateChannelResult, err error) {
-	channel, err := cs.channelRepository.CreateChannel(c.Channel)
+func (cs *ChannelService) CreateChannel(
+	ctx context.Context,
+	c command.CreateChannel,
+) (r command.CreateChannelResult, err error) {
+	channel, err := cs.channelRepository.CreateChannel(ctx, c.Channel)
 	if err != nil {
 		return command.CreateChannelResult{}, fmt.Errorf("failed creating channel in repository: %w", err)
 	}
@@ -61,8 +71,11 @@ func (cs *ChannelService) CreateChannel(c command.CreateChannel) (r command.Crea
 }
 
 // UpdateChannel implements [service.ChannelService].
-func (cs *ChannelService) UpdateChannel(c command.UpdateChannel) (r command.UpdateChannelResult, err error) {
-	err = cs.channelRepository.UpdateChannel(c.ID, c.Channel)
+func (cs *ChannelService) UpdateChannel(
+	ctx context.Context,
+	c command.UpdateChannel,
+) (r command.UpdateChannelResult, err error) {
+	err = cs.channelRepository.UpdateChannel(ctx, c.ID, c.Channel)
 	if err != nil {
 		return command.UpdateChannelResult{}, fmt.Errorf("failed updating channel in repository: %w", err)
 	}

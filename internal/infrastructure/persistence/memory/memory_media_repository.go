@@ -2,6 +2,7 @@ package memory
 
 import (
 	"cmp"
+	"context"
 	"fmt"
 	"slices"
 	"sync"
@@ -41,6 +42,7 @@ func NewMediaRepository(log zerolog.Logger) *MediaRepository {
 
 // Channels implements [repository.ChannelRepository].
 func (mr *MediaRepository) Channels(
+	_ context.Context,
 	filter channels.Filter,
 	pagination *pagination.Pagination[entity.Channel],
 ) (channels []entity.Channel, err error) {
@@ -66,7 +68,10 @@ func (mr *MediaRepository) Channels(
 }
 
 // Channel implements [repository.ChannelRepository].
-func (mr *MediaRepository) Channel(channelID id.ID) (channel entity.Channel, err error) {
+func (mr *MediaRepository) Channel(
+	_ context.Context,
+	channelID id.ID,
+) (channel entity.Channel, err error) {
 	mr.mu.RLock()
 	defer mr.mu.RUnlock()
 
@@ -80,6 +85,7 @@ func (mr *MediaRepository) Channel(channelID id.ID) (channel entity.Channel, err
 
 // CreateChannel implements [repository.ChannelRepository].
 func (mr *MediaRepository) CreateChannel(
+	_ context.Context,
 	anonymousChannel entity.AnonymousChannel,
 ) (channel entity.Channel, err error) {
 	mr.mu.Lock()
@@ -98,7 +104,11 @@ func (mr *MediaRepository) CreateChannel(
 }
 
 // UpdateChannel implements [repository.ChannelRepository].
-func (mr *MediaRepository) UpdateChannel(i id.ID, anonymousChannel entity.AnonymousChannel) (err error) {
+func (mr *MediaRepository) UpdateChannel(
+	_ context.Context,
+	i id.ID,
+	anonymousChannel entity.AnonymousChannel,
+) (err error) {
 	mr.mu.Lock()
 	defer mr.mu.Unlock()
 
@@ -121,6 +131,7 @@ func (mr *MediaRepository) UpdateChannel(i id.ID, anonymousChannel entity.Anonym
 
 // Events implements [repository.EventRepository].
 func (mr *MediaRepository) Events(
+	_ context.Context,
 	filter events.Filter,
 	pagination *pagination.Pagination[entity.Event],
 ) (events []entity.Event, err error) {
@@ -146,7 +157,10 @@ func (mr *MediaRepository) Events(
 }
 
 // Event implements [repository.EventRepository].
-func (mr *MediaRepository) Event(i id.ID) (event entity.Event, err error) {
+func (mr *MediaRepository) Event(
+	_ context.Context,
+	i id.ID,
+) (event entity.Event, err error) {
 	mr.mu.RLock()
 	defer mr.mu.RUnlock()
 
@@ -159,7 +173,10 @@ func (mr *MediaRepository) Event(i id.ID) (event entity.Event, err error) {
 }
 
 // CreateEvent implements [repository.EventRepository].
-func (mr *MediaRepository) CreateEvent(anonymousEvent entity.AnonymousEvent) (event entity.Event, err error) {
+func (mr *MediaRepository) CreateEvent(
+	_ context.Context,
+	anonymousEvent entity.AnonymousEvent,
+) (event entity.Event, err error) {
 	mr.mu.Lock()
 	defer mr.mu.Unlock()
 
@@ -176,7 +193,11 @@ func (mr *MediaRepository) CreateEvent(anonymousEvent entity.AnonymousEvent) (ev
 }
 
 // UpdateEvent implements [repository.EventRepository].
-func (mr *MediaRepository) UpdateEvent(i id.ID, anonymousEvent entity.AnonymousEvent) (err error) {
+func (mr *MediaRepository) UpdateEvent(
+	_ context.Context,
+	i id.ID,
+	anonymousEvent entity.AnonymousEvent,
+) (err error) {
 	mr.mu.Lock()
 	defer mr.mu.Unlock()
 
@@ -197,7 +218,10 @@ func (mr *MediaRepository) UpdateEvent(i id.ID, anonymousEvent entity.AnonymousE
 }
 
 // Genres implements [repository.GenreRepository].
-func (mr *MediaRepository) Genres(pagination *pagination.Pagination[entity.Genre]) (genres []entity.Genre, err error) {
+func (mr *MediaRepository) Genres(
+	_ context.Context,
+	pagination *pagination.Pagination[entity.Genre],
+) (genres []entity.Genre, err error) {
 	mr.mu.RLock()
 	defer mr.mu.RUnlock()
 
@@ -218,7 +242,10 @@ func (mr *MediaRepository) Genres(pagination *pagination.Pagination[entity.Genre
 }
 
 // GetOrCreateGenre implements [repository.GenreRepository].
-func (mr *MediaRepository) GetOrCreateGenre(anonymousGenre entity.AnonymousGenre) (genre entity.Genre, err error) {
+func (mr *MediaRepository) GetOrCreateGenre(
+	_ context.Context,
+	anonymousGenre entity.AnonymousGenre,
+) (genre entity.Genre, err error) {
 	mr.mu.Lock()
 	defer mr.mu.Unlock()
 

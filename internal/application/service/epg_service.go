@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/course-go/chanoodle/internal/application/interfaces/service"
@@ -37,8 +38,8 @@ func NewEPGService(
 }
 
 // EPG implements [service.EPGService].
-func (es *EPGService) EPG(q query.EPG) (r query.EPGResult, err error) {
-	channels, err := es.channelRepository.Channels(channels.Filter{}, nil)
+func (es *EPGService) EPG(ctx context.Context, q query.EPG) (r query.EPGResult, err error) {
+	channels, err := es.channelRepository.Channels(ctx, channels.Filter{}, nil)
 	if err != nil {
 		return query.EPGResult{}, fmt.Errorf("failed getting channels from repository: %w", err)
 	}
@@ -49,6 +50,7 @@ func (es *EPGService) EPG(q query.EPG) (r query.EPGResult, err error) {
 	}
 
 	events, err := es.eventRepository.Events(
+		ctx,
 		events.Filter{
 			Channels: channelIDs,
 			From:     &q.From,

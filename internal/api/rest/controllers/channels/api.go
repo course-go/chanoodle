@@ -37,6 +37,8 @@ func (a *API) MountRoutes(e *echo.Group) {
 }
 
 func (a *API) getChannelsController(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	q, err := request.ParseGetChannels(c)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
@@ -44,7 +46,7 @@ func (a *API) getChannelsController(c echo.Context) error {
 		return fmt.Errorf("failed parsing request: %w", err)
 	}
 
-	qr, err := a.channelService.Channels(q)
+	qr, err := a.channelService.Channels(ctx, q)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
 
@@ -62,6 +64,8 @@ func (a *API) getChannelsController(c echo.Context) error {
 }
 
 func (a *API) getChannelController(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	q, err := request.ParseGetChannel(c)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
@@ -69,7 +73,7 @@ func (a *API) getChannelController(c echo.Context) error {
 		return fmt.Errorf("failed parsing request: %w", err)
 	}
 
-	qr, err := a.channelService.Channel(q)
+	qr, err := a.channelService.Channel(ctx, q)
 	if errors.Is(err, id.ErrNoSuchEntity) {
 		c.Response().Status = http.StatusNotFound
 
@@ -93,6 +97,8 @@ func (a *API) getChannelController(c echo.Context) error {
 }
 
 func (a *API) postChannelsController(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	cmd, err := request.ParsePostChannels(c)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
@@ -100,7 +106,7 @@ func (a *API) postChannelsController(c echo.Context) error {
 		return fmt.Errorf("failed parsing request: %w", err)
 	}
 
-	cr, err := a.channelService.CreateChannel(cmd)
+	cr, err := a.channelService.CreateChannel(ctx, cmd)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
 
@@ -118,6 +124,8 @@ func (a *API) postChannelsController(c echo.Context) error {
 }
 
 func (a *API) putChannelController(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	cmd, err := request.ParsePutChannel(c)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
@@ -125,7 +133,7 @@ func (a *API) putChannelController(c echo.Context) error {
 		return fmt.Errorf("failed parsing request: %w", err)
 	}
 
-	cr, err := a.channelService.UpdateChannel(cmd)
+	cr, err := a.channelService.UpdateChannel(ctx, cmd)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
 

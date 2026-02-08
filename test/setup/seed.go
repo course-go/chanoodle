@@ -31,9 +31,12 @@ func SeedGenres(t *testing.T, d Dependencies) []entity.Genre {
 	genres := make([]entity.Genre, 0, len(genreNames))
 
 	for _, name := range genreNames {
-		genre, err := d.GenreRepository.GetOrCreateGenre(entity.AnonymousGenre{
-			Name: name,
-		})
+		genre, err := d.GenreRepository.GetOrCreateGenre(
+			t.Context(),
+			entity.AnonymousGenre{
+				Name: name,
+			},
+		)
 		require.NoError(t, err)
 
 		genres = append(genres, genre)
@@ -50,11 +53,14 @@ func SeedChannels(t *testing.T, d Dependencies, genres []entity.Genre) []entity.
 	channels := make([]entity.Channel, 0, len(channelNames))
 
 	for i, name := range channelNames {
-		channel, err := d.ChannelRepository.CreateChannel(entity.AnonymousChannel{
-			Name:     name,
-			Priority: channelPriorities[i],
-			Genres:   []id.ID{genres[i%len(genres)].ID},
-		})
+		channel, err := d.ChannelRepository.CreateChannel(
+			t.Context(),
+			entity.AnonymousChannel{
+				Name:     name,
+				Priority: channelPriorities[i],
+				Genres:   []id.ID{genres[i%len(genres)].ID},
+			},
+		)
 		require.NoError(t, err)
 
 		channels = append(channels, channel)
@@ -85,13 +91,16 @@ func SeedEvents(t *testing.T, d Dependencies, genres []entity.Genre, channels []
 			to = from.Add(LongEventDuration)
 		}
 
-		event, err := d.EventRepository.CreateEvent(entity.AnonymousEvent{
-			Name:    eventNames[i],
-			Channel: channels[i%len(channels)].ID,
-			From:    from,
-			To:      to,
-			Genres:  []id.ID{genres[i%len(genres)].ID},
-		})
+		event, err := d.EventRepository.CreateEvent(
+			t.Context(),
+			entity.AnonymousEvent{
+				Name:    eventNames[i],
+				Channel: channels[i%len(channels)].ID,
+				From:    from,
+				To:      to,
+				Genres:  []id.ID{genres[i%len(genres)].ID},
+			},
+		)
 		require.NoError(t, err)
 
 		events = append(events, event)

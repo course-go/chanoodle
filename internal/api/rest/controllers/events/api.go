@@ -37,6 +37,8 @@ func (a *API) MountRoutes(e *echo.Group) {
 }
 
 func (a *API) getEventsController(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	q, err := request.ParseGetEvents(c)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
@@ -44,7 +46,7 @@ func (a *API) getEventsController(c echo.Context) error {
 		return fmt.Errorf("failed parsing request: %w", err)
 	}
 
-	qr, err := a.eventService.Events(q)
+	qr, err := a.eventService.Events(ctx, q)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
 
@@ -62,6 +64,8 @@ func (a *API) getEventsController(c echo.Context) error {
 }
 
 func (a *API) getEventController(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	q, err := request.ParseGetEvent(c)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
@@ -69,7 +73,7 @@ func (a *API) getEventController(c echo.Context) error {
 		return fmt.Errorf("failed parsing request: %w", err)
 	}
 
-	qr, err := a.eventService.Event(q)
+	qr, err := a.eventService.Event(ctx, q)
 	if errors.Is(err, id.ErrNoSuchEntity) {
 		c.Response().Status = http.StatusNotFound
 
@@ -93,6 +97,8 @@ func (a *API) getEventController(c echo.Context) error {
 }
 
 func (a *API) postEventsController(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	cmd, err := request.ParsePostEvents(c)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
@@ -100,7 +106,7 @@ func (a *API) postEventsController(c echo.Context) error {
 		return fmt.Errorf("failed parsing request: %w", err)
 	}
 
-	cr, err := a.eventService.CreateEvent(cmd)
+	cr, err := a.eventService.CreateEvent(ctx, cmd)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
 
@@ -118,6 +124,8 @@ func (a *API) postEventsController(c echo.Context) error {
 }
 
 func (a *API) putEventController(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	cmd, err := request.ParsePutEvent(c)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
@@ -125,7 +133,7 @@ func (a *API) putEventController(c echo.Context) error {
 		return fmt.Errorf("failed parsing request: %w", err)
 	}
 
-	cr, err := a.eventService.UpdateEvent(cmd)
+	cr, err := a.eventService.UpdateEvent(ctx, cmd)
 	if err != nil {
 		c.Response().Status = http.StatusBadRequest
 
