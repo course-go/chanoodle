@@ -10,7 +10,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
-var _ service.ChannelService = &ChannelService{}
+var _ service.GenreService = &GenreService{}
 
 type GenreService struct {
 	log             zerolog.Logger
