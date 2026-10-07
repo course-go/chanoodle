@@ -32,7 +32,7 @@ func TestGetEPGController(t *testing.T) {
 
 		setup.Seed(t, d)
 
-		req := httptest.NewRequest(
+		req := httptest.NewRequestWithContext(t.Context(),
 			http.MethodGet,
 			fmt.Sprintf(
 				"/api/v1/epg?from=%d&to=%d",
@@ -108,7 +108,7 @@ func TestGetEPGController(t *testing.T) {
 
 		setup.Seed(t, d)
 
-		req := httptest.NewRequest(
+		req := httptest.NewRequestWithContext(t.Context(),
 			http.MethodGet,
 			fmt.Sprintf(
 				"/api/v1/epg?from=%d&to=%d",
@@ -160,7 +160,7 @@ func TestGetEPGController(t *testing.T) {
 		d := setup.NewDependencies(t, config)
 		setup.Seed(t, d)
 
-		req := httptest.NewRequest(
+		req := httptest.NewRequestWithContext(t.Context(),
 			http.MethodGet,
 			"/api/v1/epg?from=invalid&to=invalid",
 			nil,

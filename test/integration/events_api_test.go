@@ -34,7 +34,7 @@ func TestGetEventsController(t *testing.T) {
 
 		date := setup.Date()
 
-		req := httptest.NewRequest(http.MethodGet, "/api/v1/events?limit=100", nil)
+		req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/api/v1/events?limit=100", nil)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
@@ -106,7 +106,7 @@ func TestGetEventsController(t *testing.T) {
 
 		date := setup.Date()
 
-		req := httptest.NewRequest(http.MethodGet, "/api/v1/events?limit=2&offset=1", nil)
+		req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/api/v1/events?limit=2&offset=1", nil)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
@@ -172,7 +172,7 @@ func TestGetEventController(t *testing.T) {
 
 		date := setup.Date()
 
-		req := httptest.NewRequest(http.MethodGet, "/api/v1/events/1", nil)
+		req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/api/v1/events/1", nil)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
@@ -214,7 +214,7 @@ func TestGetEventController(t *testing.T) {
 		d := setup.NewDependencies(t, config)
 		setup.Seed(t, d)
 
-		req := httptest.NewRequest(http.MethodGet, "/api/v1/events/invalid", nil)
+		req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/api/v1/events/invalid", nil)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
@@ -237,7 +237,7 @@ func TestGetEventController(t *testing.T) {
 		d := setup.NewDependencies(t, config)
 		setup.Seed(t, d)
 
-		req := httptest.NewRequest(http.MethodGet, "/api/v1/events/69", nil)
+		req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/api/v1/events/69", nil)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
@@ -282,7 +282,12 @@ func TestPostEventsController(t *testing.T) {
 			}
 		}`, from.Format(time.RFC3339), to.Format(time.RFC3339))
 
-		req := httptest.NewRequest(http.MethodPost, "/api/v1/events", bytes.NewBufferString(reqBody))
+		req := httptest.NewRequestWithContext(
+			t.Context(),
+			http.MethodPost,
+			"/api/v1/events",
+			bytes.NewBufferString(reqBody),
+		)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
@@ -325,7 +330,12 @@ func TestPostEventsController(t *testing.T) {
 			}
 		}`
 
-		req := httptest.NewRequest(http.MethodPost, "/api/v1/events", bytes.NewBufferString(reqBody))
+		req := httptest.NewRequestWithContext(
+			t.Context(),
+			http.MethodPost,
+			"/api/v1/events",
+			bytes.NewBufferString(reqBody),
+		)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
@@ -371,7 +381,12 @@ func TestPutEventsController(t *testing.T) {
 			}
 		}`, from.Format(time.RFC3339), to.Format(time.RFC3339))
 
-		putReq := httptest.NewRequest(http.MethodPut, "/api/v1/events/1", bytes.NewBufferString(reqBody))
+		putReq := httptest.NewRequestWithContext(
+			t.Context(),
+			http.MethodPut,
+			"/api/v1/events/1",
+			bytes.NewBufferString(reqBody),
+		)
 		putReq.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		putReq.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
@@ -381,7 +396,7 @@ func TestPutEventsController(t *testing.T) {
 
 		assert.Equal(t, http.StatusOK, putRec.Code)
 
-		getReq := httptest.NewRequest(http.MethodGet, "/api/v1/events/1", nil)
+		getReq := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/api/v1/events/1", nil)
 		getReq.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		getRec := httptest.NewRecorder()
@@ -423,7 +438,12 @@ func TestPutEventsController(t *testing.T) {
 			}
 		}`
 
-		req := httptest.NewRequest(http.MethodPut, "/api/v1/events/1", bytes.NewBufferString(reqBody))
+		req := httptest.NewRequestWithContext(
+			t.Context(),
+			http.MethodPut,
+			"/api/v1/events/1",
+			bytes.NewBufferString(reqBody),
+		)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 

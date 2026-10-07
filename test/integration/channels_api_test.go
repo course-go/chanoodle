@@ -30,7 +30,7 @@ func TestGetChannelsController(t *testing.T) {
 		d := setup.NewDependencies(t, config)
 		setup.Seed(t, d)
 
-		req := httptest.NewRequest(http.MethodGet, "/api/v1/channels?limit=100", nil)
+		req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/api/v1/channels?limit=100", nil)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
@@ -105,7 +105,7 @@ func TestGetChannelsController(t *testing.T) {
 		d := setup.NewDependencies(t, config)
 		setup.Seed(t, d)
 
-		req := httptest.NewRequest(http.MethodGet, "/api/v1/channels?limit=2&offset=1", nil)
+		req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/api/v1/channels?limit=2&offset=1", nil)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
@@ -165,7 +165,7 @@ func TestGetChannelController(t *testing.T) {
 		d := setup.NewDependencies(t, config)
 		setup.Seed(t, d)
 
-		req := httptest.NewRequest(http.MethodGet, "/api/v1/channels/1", nil)
+		req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/api/v1/channels/1", nil)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
@@ -205,7 +205,7 @@ func TestGetChannelController(t *testing.T) {
 		d := setup.NewDependencies(t, config)
 		setup.Seed(t, d)
 
-		req := httptest.NewRequest(http.MethodGet, "/api/v1/channels/invalid", nil)
+		req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/api/v1/channels/invalid", nil)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
@@ -228,7 +228,7 @@ func TestGetChannelController(t *testing.T) {
 		d := setup.NewDependencies(t, config)
 		setup.Seed(t, d)
 
-		req := httptest.NewRequest(http.MethodGet, "/api/v1/channels/69", nil)
+		req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/api/v1/channels/69", nil)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
@@ -266,7 +266,12 @@ func TestPostChannelsController(t *testing.T) {
 			}
 		}`
 
-		req := httptest.NewRequest(http.MethodPost, "/api/v1/channels", bytes.NewBufferString(reqBody))
+		req := httptest.NewRequestWithContext(
+			t.Context(),
+			http.MethodPost,
+			"/api/v1/channels",
+			bytes.NewBufferString(reqBody),
+		)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
@@ -307,7 +312,12 @@ func TestPostChannelsController(t *testing.T) {
 			}
 		}`
 
-		req := httptest.NewRequest(http.MethodPost, "/api/v1/channels", bytes.NewBufferString(reqBody))
+		req := httptest.NewRequestWithContext(
+			t.Context(),
+			http.MethodPost,
+			"/api/v1/channels",
+			bytes.NewBufferString(reqBody),
+		)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
@@ -347,7 +357,12 @@ func TestPutChannelsController(t *testing.T) {
 			}
 		}`
 
-		putReq := httptest.NewRequest(http.MethodPut, "/api/v1/channels/1", bytes.NewBufferString(reqBody))
+		putReq := httptest.NewRequestWithContext(
+			t.Context(),
+			http.MethodPut,
+			"/api/v1/channels/1",
+			bytes.NewBufferString(reqBody),
+		)
 		putReq.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		putReq.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
@@ -357,7 +372,7 @@ func TestPutChannelsController(t *testing.T) {
 
 		assert.Equal(t, http.StatusOK, putRec.Code)
 
-		getReq := httptest.NewRequest(http.MethodGet, "/api/v1/channels/1", nil)
+		getReq := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/api/v1/channels/1", nil)
 		getReq.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		getRec := httptest.NewRecorder()
@@ -397,7 +412,12 @@ func TestPutChannelsController(t *testing.T) {
 			}
 		}`
 
-		req := httptest.NewRequest(http.MethodPut, "/api/v1/channels/1", bytes.NewBufferString(reqBody))
+		req := httptest.NewRequestWithContext(
+			t.Context(),
+			http.MethodPut,
+			"/api/v1/channels/1",
+			bytes.NewBufferString(reqBody),
+		)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 

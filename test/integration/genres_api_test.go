@@ -28,7 +28,7 @@ func TestGetGenresController(t *testing.T) {
 		d := setup.NewDependencies(t, config)
 		setup.Seed(t, d)
 
-		req := httptest.NewRequest(http.MethodGet, "/api/v1/genres", nil)
+		req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/api/v1/genres", nil)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
@@ -65,7 +65,7 @@ func TestGetGenresController(t *testing.T) {
 		d := setup.NewDependencies(t, config)
 		setup.Seed(t, d)
 
-		req := httptest.NewRequest(http.MethodGet, "/api/v1/genres?limit=2&offset=2", nil)
+		req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/api/v1/genres?limit=2&offset=2", nil)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
 		rec := httptest.NewRecorder()
@@ -113,7 +113,12 @@ func TestPostGenresController(t *testing.T) {
 			}
 		}`
 
-		req := httptest.NewRequest(http.MethodPost, "/api/v1/genres", bytes.NewBufferString(reqBody))
+		req := httptest.NewRequestWithContext(
+			t.Context(),
+			http.MethodPost,
+			"/api/v1/genres",
+			bytes.NewBufferString(reqBody),
+		)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
@@ -153,7 +158,12 @@ func TestPostGenresController(t *testing.T) {
 			}
 		}`
 
-		req := httptest.NewRequest(http.MethodPost, "/api/v1/genres", bytes.NewBufferString(reqBody))
+		req := httptest.NewRequestWithContext(
+			t.Context(),
+			http.MethodPost,
+			"/api/v1/genres",
+			bytes.NewBufferString(reqBody),
+		)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
@@ -191,7 +201,12 @@ func TestPostGenresController(t *testing.T) {
 			}
 		}`
 
-		req := httptest.NewRequest(http.MethodPost, "/api/v1/genres", bytes.NewBufferString(reqBody))
+		req := httptest.NewRequestWithContext(
+			t.Context(),
+			http.MethodPost,
+			"/api/v1/genres",
+			bytes.NewBufferString(reqBody),
+		)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set(auth.HeaderAPIKey, config.Auth.APIKey)
 
