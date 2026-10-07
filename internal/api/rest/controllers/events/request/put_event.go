@@ -14,7 +14,7 @@ type PutEvent struct {
 	ID   id.ID `param:"id" validate:"required"`
 	Data struct {
 		Event dto.AnonymousEvent `json:"event" validate:"required"`
-	} `           validate:"required" json:"data"`
+	} `json:"data" validate:"required"`
 }
 
 func ParsePutEvent(c echo.Context) (cmd command.UpdateEvent, err error) {

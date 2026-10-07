@@ -4,7 +4,7 @@
 # Chanoodle
 
 Chanoodle is an EPG, channel and event metadata service.
-It exposes this data using REST API.
+It exposes this data using a REST API.
 
 <div align="center">
     <img src="assets/gopher-noodles.svg" alt="Gopher noodles" width="360">
@@ -15,7 +15,7 @@ It exposes this data using REST API.
 
 ## Architecture
 
-The application internally uses the [Hexagonal architecture](<https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)>) (also known as the "Port and adapters", "Onion architecture" or "Clean architecture" - although these can deviate, they are basically the same thing).
+The application internally uses the [Hexagonal architecture](<https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)>) (also known as the "Ports and adapters", "Onion architecture" or "Clean architecture" - although these can deviate, they are basically the same thing).
 
 <img src="assets/architecture.svg" alt="Chanoodle architecture" width="1200">
 
@@ -38,14 +38,14 @@ Chanoodle already implements a REST API exposing the basic functionality.
 However, as this project was only a POC (proof-of-concept) the developers only
 implemented an in-memory data store.
 
-You goal will be to implement an actual persistent database layer, containerize the
+Your goal will be to implement an actual persistent database layer, containerize the
 application and add database dependency using Docker compose.
 
-As with the router technology in previous assignment, the choice
+As with the router technology in the previous assignment, the choice
 of the "persistence" library is again up to you.
 Here are the technologies that were presented in lectures:
 
-- [databases/sql](https://pkg.go.dev/database/sql) with a driver of your choice
+- [database/sql](https://pkg.go.dev/database/sql) with a driver of your choice
 - [sqlx](https://github.com/jmoiron/sqlx)
 - [sqlc](https://github.com/sqlc-dev/sqlc)
 - [GORM](https://github.com/go-gorm/gorm)
@@ -82,7 +82,7 @@ Note that you will need to mount a volume for the database to persist its data.
 
 #### Persistence
 
-Add a support for an actual relational database.
+Add support for an actual relational database.
 For this, you can choose whatever relational database system you like.
 As previously mentioned, the library used is also up to you.
 
@@ -91,7 +91,7 @@ the `REASONING.md` file.
 
 Please do not use file based solutions like [SQLite](https://sqlite.org/).
 Our goal here, among others, is to practice multi-service communication using Compose
-and using file based solutions that do not run their own process beats the purpose.
+and using file based solutions that do not run their own process defeats the purpose.
 
 ## Requirements
 
@@ -103,5 +103,5 @@ file.
 ## Motivation
 
 The goal of this homework is to practice implementing a persistence layer
-using the Go ecosystem and its libraries and to containerize and setup a basic
+using the Go ecosystem and its libraries and to containerize and set up a basic
 compose file for the application and its dependencies.
