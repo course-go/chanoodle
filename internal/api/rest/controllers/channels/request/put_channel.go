@@ -15,7 +15,7 @@ type PutChannel struct {
 	ID   id.ID `param:"id"`
 	Data struct {
 		Channel dto.AnonymousChannel `json:"channel" validate:"required"`
-	} `           json:"data" validate:"required"`
+	} `json:"data" validate:"required"`
 }
 
 func ParsePutChannel(c echo.Context) (cmd command.UpdateChannel, err error) {
