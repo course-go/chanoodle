@@ -9,6 +9,7 @@ linters:
   disable:
     # restrictive
     - exhaustruct
+    - exhaustruct_v5
     - varnamelen
     - funlen
     - nonamedreturns
@@ -16,6 +17,13 @@ linters:
     - depguard
     # deprecated
     - wsl
+    - gomodguard
+  exclusions:
+    rules:
+      # repeated literals in table-driven tests read better than constants
+      - path: _test\.go
+        linters:
+          - goconst
   settings:
     dupl:
       threshold: 400
@@ -40,6 +48,8 @@ formatters:
   settings:
     golines:
       max-len: 120
+      # tag alignment is enforced by the tagalign linter
+      reformat-tags: false
 
 output:
   formats:
