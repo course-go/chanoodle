@@ -12,12 +12,12 @@ test:
 
 .PHONY: lint
 lint:
-	go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint run
+	go tool golangci-lint run
 
 .PHONY: format
 format:
-	go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint fmt
+	go tool golangci-lint fmt
 
 .PHONY: format-diff
 format-diff:
-	go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint fmt --diff-colored
+	go tool golangci-lint fmt --diff-colored
